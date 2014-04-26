@@ -50,7 +50,6 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 
 	// link naar de webservice
 	private static final String INDEX_URL = "http://www.abochecker.tk/webservice/index.php";
-	private static final String DELETE_URL = "http://www.abochecker.tk/webservice/delete.php";
 
 	// "succes" verwijst naar de variabele succes in onze JSONData dat we
 	// aanmaken in de webservice
@@ -79,7 +78,6 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 
 	// de array prov (met alle gevonden providers)
 	private static final String TAG_PROV = "prov";
-	private int pos;
 	ListView lv;
 
 	@Override
@@ -247,32 +245,12 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 			long arg3) {
 
-		if (arg0.getId() == R.id.listView1) {
-			Log.d("listview", "position" + position);
-
-			switch (position) {
-			case 0:
-
-				break;
-
-			case 1:
-				Bundle basket = new Bundle();
-				basket.putInt("position", pos);
-				basket.putSerializable("abolist", abolist);
-				Intent i = new Intent(ProviderList.this, EditBundle.class);
-				i.putExtras(basket);
-				startActivity(i);
-
-				break;
-
-			case 2:
-
-				new delete().execute();
-
-				break;
-			}
-
-		} else {
+		if(arg0.getId() == R.id.listView1) {
+	
+			
+			Log.d("listview", "position: " + position);
+		
+		}else{
 			Bundle basket = new Bundle();
 			basket.putInt("position", position);
 			basket.putSerializable("abolist", abolist);
@@ -285,7 +263,6 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 	@Override
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
-		pos = arg2;
 		String names[] = { "Naam wijzigen", "Prijzen aanpassen", "Verwijderen" };
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(
 				ProviderList.this);
@@ -300,37 +277,6 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 		listview.setOnItemClickListener(this);
 		alertDialog.show();
 		return false;
-	}
-
-	class delete extends AsyncTask<String, String, String> {
-
-		@Override
-		protected String doInBackground(String... params) {
-			ArrayList<NameValuePair> params2 = new ArrayList<NameValuePair>();
-			String id = String.valueOf(abolist.get(pos).getId());
-			Log.d("listview", "id : " + id);
-			params2.add(new BasicNameValuePair("id", id));
-			// hier voer je de POST uit op de webservice
-			JSONObject json = jsonParser.makeHttpRequest(DELETE_URL, "POST",
-					params2);
-			// de waarde uit de JSONData wordt hier gehaald
-			try {
-				int succes = json.getInt("succes");
-				String query = json.getString("query");
-
-				Log.d("json", "succes: " + succes);
-				Log.d("json", "query: " + query);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				Log.d("json", "failed");
-				e.printStackTrace();
-			}
-
-			finish();
-			startActivity(getIntent());
-
-			return null;
-		}
 	}
 
 }
