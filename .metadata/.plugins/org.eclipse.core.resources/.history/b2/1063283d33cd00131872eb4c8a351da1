@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -245,37 +244,28 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 			long arg3) {
 
-		if(arg0.getId() == R.id.listView1) {
-	
-			
-			Log.d("listview", "dit lukt");
-		
-		}else{
-			Bundle basket = new Bundle();
-			basket.putInt("position", position);
-			basket.putSerializable("abolist", abolist);
-			Intent i = new Intent(ProviderList.this, EditBundle.class);
-			i.putExtras(basket);
-			startActivity(i);
-		}
+		Bundle basket = new Bundle();
+		basket.putInt("position", position);
+		basket.putSerializable("abolist", abolist);
+		Intent i = new Intent(ProviderList.this, EditBundle.class);
+		i.putExtras(basket);
+		startActivity(i);
+
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
-		String names[] = { "Naam wijzigen", "Prijzen aanpassen", "Verwijderen" };
-		AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-				ProviderList.this);
-		LayoutInflater inflater = getLayoutInflater();
-		View convertView = (View) inflater.inflate(R.layout.custom, null);
-		alertDialog.setView(convertView);
-		alertDialog.setTitle("Wat wil je doen?");
-		ListView listview = (ListView) convertView.findViewById(R.id.listView1);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, names);
-		listview.setAdapter(adapter);
-		listview.setOnItemClickListener(this);
-		alertDialog.show();
+		String names[] ={"Naam wijzigen","Prijzen aanpassen", "Verwijderen"};
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProviderList.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.custom, null);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("Wat wil je doen?");
+        ListView listview = (ListView) convertView.findViewById(R.id.listView1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,names);
+        listview.setAdapter(adapter);
+        alertDialog.show();
 		return false;
 	}
 

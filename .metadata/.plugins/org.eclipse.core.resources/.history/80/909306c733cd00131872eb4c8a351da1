@@ -245,18 +245,20 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 			long arg3) {
 
-		if(arg0.getId() == R.id.listView1) {
-	
-			
-			Log.d("listview", "dit lukt");
-		
-		}else{
+		switch (arg0.getId()) {
+		case R.id.lv:
 			Bundle basket = new Bundle();
 			basket.putInt("position", position);
 			basket.putSerializable("abolist", abolist);
 			Intent i = new Intent(ProviderList.this, EditBundle.class);
 			i.putExtras(basket);
 			startActivity(i);
+
+			break;
+
+		case R.id.listView1:
+			Log.d("listview", "dit lukt");
+			break;
 		}
 	}
 
