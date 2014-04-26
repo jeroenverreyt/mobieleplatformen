@@ -256,12 +256,12 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 	@Override
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
-		String names[] ={"Naam wijzigen","Prijzen aanpassen", "Verwijderen"};
+		String names[] ={"Naam wijzigen","Verwijderen","Wijzigen"};
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProviderList.this);
         LayoutInflater inflater = getLayoutInflater();
         View convertView = (View) inflater.inflate(R.layout.custom, null);
         alertDialog.setView(convertView);
-        alertDialog.setTitle("Wat wil je doen?");
+        alertDialog.setTitle("List");
         ListView lv = (ListView) convertView.findViewById(R.id.listView1);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,names);
         lv.setAdapter(adapter);
