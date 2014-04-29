@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="android.view.View.OnLongClickListener"/>
+<fullyQualifiedTypeName name="android.app.Dialog"/>
+<fullyQualifiedTypeName name="android.app.AlertDialog"/>
+<fullyQualifiedTypeName name="android.content.DialogInterface"/>
+<fullyQualifiedTypeName name="android.view.LayoutInflater"/>
+<fullyQualifiedTypeName name="com.thomasmore.mobieleplatformen.R.id"/>
+<fullyQualifiedTypeName name="com.thomasmore.mobieleplatformen.ProviderList.getProviders"/>
+<fullyQualifiedTypeName name="com.thomasmore.mobieleplatformen.ProviderList"/>
+</qualifiedTypeNameHistroy>

@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -51,7 +53,7 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 	// link naar de webservice
 	private static final String INDEX_URL = "http://www.abochecker.tk/webservice/index.php";
 	private static final String DELETE_URL = "http://www.abochecker.tk/webservice/delete.php";
-
+	private static final String UPDATE_NAME_URL = "http://www.abochecker.tk/webservice/updatename.php";
 	// "succes" verwijst naar de variabele succes in onze JSONData dat we
 	// aanmaken in de webservice
 
@@ -80,6 +82,7 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 	// de array prov (met alle gevonden providers)
 	private static final String TAG_PROV = "prov";
 	private int pos;
+	private String newName;
 	ListView lv;
 
 	@Override
@@ -253,6 +256,8 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 			switch (position) {
 			case 0:
 
+			prompt();
+			
 				break;
 
 			case 1:
@@ -302,6 +307,44 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 		return false;
 	}
 
+	public void prompt(){
+	
+
+				// get prompts.xml view
+				LayoutInflater layoutInflater = LayoutInflater.from(this);
+
+				View promptView = layoutInflater.inflate(R.layout.prompt, null);
+
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+				// set prompts.xml to be the layout file of the alertdialog builder
+				alertDialogBuilder.setView(promptView);
+
+				final EditText input = (EditText) promptView.findViewById(R.id.userInput);
+
+				// setup a dialog window
+				alertDialogBuilder
+						.setCancelable(false)
+						.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										// get user input and set it to result
+										newName = input.getText().toString();
+										new updateName().execute();
+									}
+								})
+						.setNegativeButton("Cancel",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,	int id) {
+										dialog.cancel();
+									}
+								});
+
+				// create an alert dialog
+				AlertDialog alertD = alertDialogBuilder.create();
+
+				alertD.show();
+	}
+		
 	class delete extends AsyncTask<String, String, String> {
 
 		@Override
@@ -310,6 +353,7 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 			String id = String.valueOf(abolist.get(pos).getId());
 			Log.d("listview", "id : " + id);
 			params2.add(new BasicNameValuePair("id", id));
+			params2.add(new BasicNameValuePair("newName", newName));
 			// hier voer je de POST uit op de webservice
 			JSONObject json = jsonParser.makeHttpRequest(DELETE_URL, "POST",
 					params2);
@@ -333,4 +377,36 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 		}
 	}
 
+	class updateName extends AsyncTask<String, String, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			ArrayList<NameValuePair> params2 = new ArrayList<NameValuePair>();
+			String id = String.valueOf(abolist.get(pos).getId());
+			Log.d("listview", "id : " + id);
+			params2.add(new BasicNameValuePair("id", id));
+			params2.add(new BasicNameValuePair("newName", newName));
+			Log.d("json", "newName: " + newName);
+			// hier voer je de POST uit op de webservice
+			JSONObject json = jsonParser.makeHttpRequest(UPDATE_NAME_URL, "POST",
+					params2);
+			// de waarde uit de JSONData wordt hier gehaald
+			try {
+				int succes = json.getInt("succes");
+				String query = json.getString("query");
+
+				Log.d("json", "succes: " + succes);
+				Log.d("json", "query: " + query);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				Log.d("json", "failed");
+				e.printStackTrace();
+			}
+
+			finish();
+			startActivity(getIntent());
+
+			return null;
+		}
+	}
 }

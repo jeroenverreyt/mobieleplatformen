@@ -28,25 +28,27 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090019;
+        public static final int action_settings=0x7f09001c;
         public static final int bAdjustCall=0x7f09000a;
         public static final int bAdjustData=0x7f09000e;
-        public static final int bAdjustSMS=0x7f090018;
+        public static final int bAdjustSMS=0x7f09001b;
         public static final int etCall=0x7f090001;
         public static final int etCallInternational=0x7f090003;
         public static final int etData=0x7f09000c;
         public static final int etFreeCalAn=0x7f090005;
         public static final int etFreeCallEn=0x7f090007;
         public static final int etFreeData=0x7f09000d;
-        public static final int etFreeSmsAn=0x7f090016;
-        public static final int etFreeSmsEn=0x7f090015;
-        public static final int etSMS=0x7f090014;
+        public static final int etFreeSmsAn=0x7f090019;
+        public static final int etFreeSmsEn=0x7f090018;
+        public static final int etSMS=0x7f090017;
+        public static final int layout_root=0x7f090014;
         public static final int listView1=0x7f09000b;
         public static final int lv=0x7f090011;
         public static final int pager=0x7f09000f;
         public static final int spFreeCallType=0x7f090009;
-        public static final int spFreeSmsType=0x7f090017;
+        public static final int spFreeSmsType=0x7f09001a;
         public static final int spProvider=0x7f090010;
+        public static final int textView=0x7f090015;
         public static final int textView1=0x7f090000;
         public static final int textView2=0x7f090008;
         public static final int textView3=0x7f090002;
@@ -54,6 +56,7 @@ public final class R {
         public static final int textView9=0x7f090006;
         public static final int tvBundel=0x7f090012;
         public static final int tvPrice=0x7f090013;
+        public static final int userInput=0x7f090016;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -64,7 +67,8 @@ public final class R {
         public static final int home=0x7f030005;
         public static final int list=0x7f030006;
         public static final int list_item=0x7f030007;
-        public static final int sms_frag=0x7f030008;
+        public static final int prompt=0x7f030008;
+        public static final int sms_frag=0x7f030009;
     }
     public static final class menu {
         public static final int main=0x7f080000;
