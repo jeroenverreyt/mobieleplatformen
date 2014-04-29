@@ -257,8 +257,8 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 			switch (position) {
 			case 0:
 				alertDialog.dismiss();
-				prompt();
-
+			prompt();
+			
 				break;
 
 			case 1:
@@ -274,7 +274,7 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 			case 2:
 				alertDialog.dismiss();
 				new delete().execute();
-
+			
 				break;
 			}
 
@@ -304,48 +304,48 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(this);
 		alertDialog.show();
-
+		
 		return false;
 	}
 
-	public void prompt() {
+	public void prompt(){
+	
 
-		// get prompts.xml view
-		LayoutInflater layoutInflater = LayoutInflater.from(this);
+				// get prompts.xml view
+				LayoutInflater layoutInflater = LayoutInflater.from(this);
 
-		View promptView = layoutInflater.inflate(R.layout.prompt, null);
+				View promptView = layoutInflater.inflate(R.layout.prompt, null);
 
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-		// set prompts.xml to be the layout file of the alertdialog builder
-		alertDialogBuilder.setView(promptView);
+				// set prompts.xml to be the layout file of the alertdialog builder
+				alertDialogBuilder.setView(promptView);
 
-		final EditText input = (EditText) promptView
-				.findViewById(R.id.userInput);
+				final EditText input = (EditText) promptView.findViewById(R.id.userInput);
 
-		// setup a dialog window
-		alertDialogBuilder
-				.setCancelable(false)
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						// get user input and set it to result
-						newName = input.getText().toString();
-						new updateName().execute();
-					}
-				})
-				.setNegativeButton("Cancel",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
+				// setup a dialog window
+				alertDialogBuilder
+						.setCancelable(false)
+						.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										// get user input and set it to result
+										newName = input.getText().toString();
+									new updateName().execute();
+									}
+								})
+						.setNegativeButton("Cancel",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,	int id) {
+										dialog.cancel();
+									}
+								});
 
-		// create an alert dialog
-		AlertDialog alertD = alertDialogBuilder.create();
+				// create an alert dialog
+				AlertDialog alertD = alertDialogBuilder.create();
 
-		alertD.show();
+				alertD.show();
 	}
-
+		
 	class delete extends AsyncTask<String, String, String> {
 
 		@Override
@@ -371,8 +371,8 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 				e.printStackTrace();
 			}
 
-			finish();
-			startActivity(getIntent());
+		//	finish();
+			//startActivity(getIntent());
 
 			return null;
 		}
@@ -389,8 +389,8 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 			params2.add(new BasicNameValuePair("newName", newName));
 			Log.d("json", "newName: " + newName);
 			// hier voer je de POST uit op de webservice
-			JSONObject json = jsonParser.makeHttpRequest(UPDATE_NAME_URL,
-					"POST", params2);
+			JSONObject json = jsonParser.makeHttpRequest(UPDATE_NAME_URL, "POST",
+					params2);
 			// de waarde uit de JSONData wordt hier gehaald
 			try {
 				int succes = json.getInt("succes");
