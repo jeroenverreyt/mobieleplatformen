@@ -276,6 +276,15 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 				new delete().execute();
 
 				break;
+				
+			case 3: 
+				String provider = abolist.get(pos).getProvider();
+				Log.d("basket", provider);
+				Bundle b = new Bundle();
+				b.putString("provider",provider );
+				Intent intent = new Intent(ProviderList.this, Insert.class);
+				intent.putExtras(b);
+				startActivity(intent);
 			}
 
 		} else {
@@ -292,7 +301,7 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
 		pos = arg2;
-		String names[] = { "Naam wijzigen", "Prijzen aanpassen", "Verwijderen" };
+		String names[] = { "Naam wijzigen", "Prijzen aanpassen", "Verwijderen", "Nieuw tarief" };
 		alertDialog = new AlertDialog.Builder(this).create();
 		LayoutInflater inflater = getLayoutInflater();
 		View convertView = (View) inflater.inflate(R.layout.custom, null);

@@ -27,6 +27,24 @@
             android:name="com.thomasmore.mobieleplatformen.EditBundle"
             android:label="@string/app_name"  >
         </activity>
+            <activity
+            android:name="com.thomasmore.mobieleplatformen.Insert"
+            android:label="@string/app_name"  >
+        </activity>
+                <activity
+            android:name="com.thomasmore.mobieleplatformen.InsertSms"
+            android:label="@string/app_name"  >
+        </activity>
+            
+                <activity
+            android:name="com.thomasmore.mobieleplatformen.InsertCall"
+            android:label="@string/app_name"  >
+        </activity>
+            <activity
+            android:name="com.thomasmore.mobieleplatformen.InsertData"
+            android:label="@string/app_name"  >
+        </activity>
+            
             
     </application>
 
