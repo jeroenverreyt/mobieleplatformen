@@ -256,7 +256,7 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 
 			switch (position) {
 			case 0:
-				alertDialog.dismiss();
+
 			prompt();
 			
 				break;
@@ -272,9 +272,9 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 				break;
 
 			case 2:
+				
+				//new delete().execute();
 				alertDialog.dismiss();
-				new delete().execute();
-			
 				break;
 			}
 
@@ -330,7 +330,7 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 									public void onClick(DialogInterface dialog, int id) {
 										// get user input and set it to result
 										newName = input.getText().toString();
-									new updateName().execute();
+									//	new updateName().execute();
 									}
 								})
 						.setNegativeButton("Cancel",

@@ -84,7 +84,6 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 	private int pos;
 	private String newName;
 	ListView lv;
-	private AlertDialog alertDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -256,7 +255,7 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 
 			switch (position) {
 			case 0:
-				alertDialog.dismiss();
+
 			prompt();
 			
 				break;
@@ -272,9 +271,9 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 				break;
 
 			case 2:
-				alertDialog.dismiss();
+
 				new delete().execute();
-			
+
 				break;
 			}
 
@@ -293,7 +292,8 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 			long arg3) {
 		pos = arg2;
 		String names[] = { "Naam wijzigen", "Prijzen aanpassen", "Verwijderen" };
-		alertDialog = new AlertDialog.Builder(this).create();
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+				ProviderList.this);
 		LayoutInflater inflater = getLayoutInflater();
 		View convertView = (View) inflater.inflate(R.layout.custom, null);
 		alertDialog.setView(convertView);
@@ -304,7 +304,6 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(this);
 		alertDialog.show();
-		
 		return false;
 	}
 
@@ -330,7 +329,7 @@ public class ProviderList extends Activity implements OnItemSelectedListener,
 									public void onClick(DialogInterface dialog, int id) {
 										// get user input and set it to result
 										newName = input.getText().toString();
-									new updateName().execute();
+									//	new updateName().execute();
 									}
 								})
 						.setNegativeButton("Cancel",
