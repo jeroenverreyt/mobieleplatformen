@@ -110,27 +110,27 @@ public class EditSms extends Fragment implements OnClickListener,
 		
 		
 		case R.id.bAdjustSMS:
-		
 			if(!val.isStringNumeric(etSms.getText().toString())){
 				etSms.setError("Ingevoerde waarde moet een getal zijn!");
-					
+			
+			
 			}else if(!val.isStringNumeric(etFreeSmsEn.getText().toString())){
 				etFreeSmsEn.setError("Ingevoerde waarde moet een getal zijn!");
 			}else if(!val.isStringNumeric(etFreeSmsAn.getText().toString())){
 				etFreeSmsAn.setError("Ingevoerde waarde moet een getal zijn!");
-			}else if (!val.isPositive(etSms.getText().toString())) {
+			}else if (Double.parseDouble(etSms.getText().toString())<0) {
 				
 				etSms.setError("Moet een positief getal zijn");
 				
-			}else if (!val.isPositive(etFreeSmsEn.getText().toString())) {
+//				new updateSMS().execute();
+			}else if (Double.parseDouble(etFreeSmsEn.getText().toString())<0) {
 				etFreeSmsEn.setError("Moet een positief getal zijn");
 			
-			}else if (!val.isPositive(etFreeSmsAn.getText().toString())) {
+			}else if (Double.parseDouble(etFreeSmsAn.getText().toString())<0) {
 				etFreeSmsAn.setError("Moet een positief getal zijn");
 			}
 			else{
 				Log.d("numeric", "alles inorde");
-				new updateSMS().execute();
 			}
 			break;
 		}

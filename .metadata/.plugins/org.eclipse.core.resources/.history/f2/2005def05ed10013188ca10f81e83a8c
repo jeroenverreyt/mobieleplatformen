@@ -33,7 +33,6 @@ public class EditSms extends Fragment implements OnClickListener,
 	private String sms, freeSmsEn, freeSmsAn, freeSmsType, id;
 	private JSONParser jsonParser = new JSONParser();
 
-
 	// link naar de webservice
 	private static final String INDEX_URL = "http://www.abochecker.tk/webservice/updateSms.php";
 
@@ -104,39 +103,46 @@ public class EditSms extends Fragment implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		double testSms, testFreeSmsEn, testFreeSmsAn;
-		FormValidation val = new FormValidation();
+
 		switch (v.getId()) {
-		
-		
 		case R.id.bAdjustSMS:
-		
-			if(!val.isStringNumeric(etSms.getText().toString())){
-				etSms.setError("Ingevoerde waarde moet een getal zijn!");
-					
-			}else if(!val.isStringNumeric(etFreeSmsEn.getText().toString())){
-				etFreeSmsEn.setError("Ingevoerde waarde moet een getal zijn!");
-			}else if(!val.isStringNumeric(etFreeSmsAn.getText().toString())){
-				etFreeSmsAn.setError("Ingevoerde waarde moet een getal zijn!");
-			}else if (!val.isPositive(etSms.getText().toString())) {
+			if(isStringNumeric(etSms.getText().toString()) 
+					&& isStringNumeric(etFreeSmsAn.getText().toString())
+					&& isStringNumeric(etFreeSmsEn.getText().toString())){
 				
-				etSms.setError("Moet een positief getal zijn");
-				
-			}else if (!val.isPositive(etFreeSmsEn.getText().toString())) {
-				etFreeSmsEn.setError("Moet een positief getal zijn");
-			
-			}else if (!val.isPositive(etFreeSmsAn.getText().toString())) {
-				etFreeSmsAn.setError("Moet een positief getal zijn");
+				Log.d("numeric", "isnumeric");
+			}else{
+				Log.d("numeric", "notnumeric");
 			}
-			else{
-				Log.d("numeric", "alles inorde");
-				new updateSMS().execute();
-			}
+			//new updateSMS().execute();
 			break;
 		}
 
 	}
-	
+	public static boolean isStringNumeric( String str )
+	{
+	    DecimalFormatSymbols currentLocaleSymbols = DecimalFormatSymbols.getInstance();
+	    char localeMinusSign = currentLocaleSymbols.getMinusSign();
+
+	    if ( !Character.isDigit( str.charAt( 0 ) ) && str.charAt( 0 ) != localeMinusSign ) return false;
+
+	    boolean isDecimalSeparatorFound = false;
+	    char localeDecimalSeparator = currentLocaleSymbols.getDecimalSeparator();
+
+	    for ( char c : str.substring( 1 ).toCharArray() )
+	    {
+	        if ( !Character.isDigit( c ) )
+	        {
+	            if ( c == localeDecimalSeparator && !isDecimalSeparatorFound )
+	            {
+	                isDecimalSeparatorFound = true;
+	                continue;
+	            }
+	            return false;
+	        }
+	    }
+	    return true;
+	}
 	class updateSMS extends AsyncTask<String, String, String> {
 
 		@Override
