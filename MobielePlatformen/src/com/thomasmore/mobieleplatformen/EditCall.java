@@ -6,6 +6,9 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.thomasmore.mobieleplatformen.EditSms.updateSMS;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -106,12 +109,40 @@ public class EditCall extends Fragment implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-
+		FormValidation val = new FormValidation();
 		switch (v.getId()) {
+		
 		case R.id.bAdjustCall:
-			new updateCall().execute();
+			if(!val.isStringNumeric(etCall.getText().toString())){
+				etCall.setError("Ingevoerde waarde moet een getal zijn!");
+					
+			}else if(!val.isStringNumeric(etCallInternational.getText().toString())){
+				etCallInternational.setError("Ingevoerde waarde moet een getal zijn!");
+			}else if(!val.isStringNumeric(etFreeCallAn.getText().toString())){
+				etFreeCallAn.setError("Ingevoerde waarde moet een getal zijn!");
+			
+			}else if(!val.isStringNumeric(etFreeCallEn.getText().toString())){
+				etFreeCallEn.setError("Ingevoerde waarde moet een getal zijn!");
+			
+			}else if (!val.isPositive(etCall.getText().toString())) {
+				
+				etCall.setError("Moet een positief getal zijn");
+				
+			}else if (!val.isPositive(etCallInternational.getText().toString())) {
+				etCallInternational.setError("Moet een positief getal zijn");
+			
+			}else if (!val.isPositive(etFreeCallAn.getText().toString())) {
+				etFreeCallAn.setError("Moet een positief getal zijn");
+			}else if (!val.isPositive(etFreeCallEn.getText().toString())) {
+				etFreeCallEn.setError("Moet een positief getal zijn");
+			}
+			else{
+				Log.d("numeric", "alles inorde");
+				new updateCall().execute();
+			}
 			break;
 		}
+		
 
 	}
 

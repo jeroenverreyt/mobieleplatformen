@@ -1,6 +1,5 @@
 package com.thomasmore.mobieleplatformen;
 
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 import org.apache.http.NameValuePair;
@@ -23,48 +22,51 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class EditSms extends Fragment implements OnClickListener,
+public class EditCall extends Fragment implements OnClickListener,
 		OnItemSelectedListener {
-	private Button bChangeSMS;
+	private Button bChangeCall;
 	private Spinner spinner;
-	private EditText etSms, etFreeSmsEn, etFreeSmsAn;
+	private EditText etCall, etFreeCallEn, etFreeCallAn, etCallInternational;
 	private ArrayList<Abo> abolist;
 	private int position;
-	private String sms, freeSmsEn, freeSmsAn, freeSmsType, id;
+	private String call, freeCallEn, freeCallAn, freeCallType, id, callInternational;
 	private JSONParser jsonParser = new JSONParser();
 
-
 	// link naar de webservice
-	private static final String INDEX_URL = "http://www.abochecker.tk/webservice/updateSms.php";
+	private static final String INDEX_URL = "http://www.abochecker.tk/webservice/updatebel.php";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View editsms = inflater.inflate(R.layout.sms_frag, container, false);
+		View editsms = inflater.inflate(R.layout.call_frag, container, false);
 
 		EditBundle b = (EditBundle) getActivity();
 		position = b.getPosition();
 
 		abolist = b.getAbolist();
 
-		sms = String.valueOf(abolist.get(position).getSms_en());
-		freeSmsEn = String.valueOf(abolist.get(position).getGr_sms_en());
-		freeSmsAn = String.valueOf(abolist.get(position).getGr_sms());
-		freeSmsType = String.valueOf(abolist.get(position).getGr_sms_type());
-
+		call = String.valueOf(abolist.get(position).getBel_an());
+		freeCallEn = String.valueOf(abolist.get(position).getGr_bel_en());
+		freeCallAn = String.valueOf(abolist.get(position).getGr_bel());
+		freeCallType = String.valueOf(abolist.get(position).getGr_bel_type());
+		callInternational = String.valueOf(abolist.get(position).getBel_bui());
+		
 		id = String.valueOf(abolist.get(position).getId());
 
-		etSms = (EditText) editsms.findViewById(R.id.etSMS);
-		etFreeSmsEn = (EditText) editsms.findViewById(R.id.etFreeSmsEn);
-		etFreeSmsAn = (EditText) editsms.findViewById(R.id.etFreeSmsAn);
-		spinner = (Spinner) editsms.findViewById(R.id.spFreeSmsType);
+		etCall = (EditText) editsms.findViewById(R.id.etCall);
+		etFreeCallEn = (EditText) editsms.findViewById(R.id.etFreeCallEn);
+		etFreeCallAn = (EditText) editsms.findViewById(R.id.etFreeCalAn);
+		etCallInternational = (EditText)editsms.findViewById(R.id.etCallInternational);
+		
+		spinner = (Spinner) editsms.findViewById(R.id.spFreeCallType);
 
-		bChangeSMS = (Button) editsms.findViewById(R.id.bAdjustSMS);
-		bChangeSMS.setOnClickListener(this);
+		bChangeCall = (Button) editsms.findViewById(R.id.bAdjustCall);
+		bChangeCall.setOnClickListener(this);
 
-		etSms.setText(sms);
-		etFreeSmsAn.setText(freeSmsAn);
-		etFreeSmsEn.setText(freeSmsEn);
+		etCall.setText(call);
+		etFreeCallAn.setText(freeCallAn);
+		etFreeCallEn.setText(freeCallEn);
+		etCallInternational.setText(callInternational);
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				getActivity().getBaseContext(), R.array.freeSmsType_aray,
@@ -74,17 +76,17 @@ public class EditSms extends Fragment implements OnClickListener,
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
 		spinner.setOnItemSelectedListener(this);
-		if (freeSmsType.equals("N")) {
+		if (freeCallType.equals("N")) {
 			spinner.setSelection(0);
 
-		} else if (freeSmsType.equals("W")) {
+		} else if (freeCallType.equals("W")) {
 			spinner.setSelection(1);
 
-		} else if (freeSmsType.equals("AW")) {
+		} else if (freeCallType.equals("AW")) {
 			spinner.setSelection(2);
 
 		}
-		Log.d("spinner", freeSmsType);
+		Log.d("spinner", freeCallType);
 		return editsms;
 	}
 
@@ -104,63 +106,42 @@ public class EditSms extends Fragment implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		FormValidation val = new FormValidation();
+
 		switch (v.getId()) {
-		
-		
-		case R.id.bAdjustSMS:
-		
-			if(!val.isStringNumeric(etSms.getText().toString())){
-				etSms.setError("Ingevoerde waarde moet een getal zijn!");
-					
-			}else if(!val.isStringNumeric(etFreeSmsEn.getText().toString())){
-				etFreeSmsEn.setError("Ingevoerde waarde moet een getal zijn!");
-			}else if(!val.isStringNumeric(etFreeSmsAn.getText().toString())){
-				etFreeSmsAn.setError("Ingevoerde waarde moet een getal zijn!");
-			}else if (!val.isPositive(etSms.getText().toString())) {
-				
-				etSms.setError("Moet een positief getal zijn");
-				
-			}else if (!val.isPositive(etFreeSmsEn.getText().toString())) {
-				etFreeSmsEn.setError("Moet een positief getal zijn");
-			
-			}else if (!val.isPositive(etFreeSmsAn.getText().toString())) {
-				etFreeSmsAn.setError("Moet een positief getal zijn");
-			}
-			else{
-				Log.d("numeric", "alles inorde");
-				new updateSMS().execute();
-			}
+		case R.id.bAdjustCall:
+			new updateCall().execute();
 			break;
 		}
 
 	}
-	
-	class updateSMS extends AsyncTask<String, String, String> {
+
+	class updateCall extends AsyncTask<String, String, String> {
 
 		@Override
 		protected String doInBackground(String... args) {
 
 			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 
-			sms = etSms.getText().toString();
-			freeSmsAn = etFreeSmsAn.getText().toString();
-			freeSmsEn = etFreeSmsEn.getText().toString();
+			call = etCall.getText().toString();
+			freeCallAn = etFreeCallAn.getText().toString();
+			freeCallEn = etFreeCallEn.getText().toString();
+			callInternational = etCallInternational.getText().toString();
 
 			if (spinner.getSelectedItemId() == 0) {
-				freeSmsType = "N";
+				freeCallType = "N";
 			}else if(spinner.getSelectedItemId() == 1){
-				freeSmsType = "W";
+				freeCallType = "W";
 			}else if(spinner.getSelectedItemId()==2){
-				freeSmsType="AW";
+				freeCallType="AW";
 			}
 
-			Log.d("spinner", "nieuwe waarde: " + freeSmsType);
-			params.add(new BasicNameValuePair("sms", sms));
-			params.add(new BasicNameValuePair("freeSmsAn", freeSmsAn));
-			params.add(new BasicNameValuePair("freeSmsEn", freeSmsEn));
-			params.add(new BasicNameValuePair("freeSmsType", freeSmsType));
-
+			Log.d("spinner", "nieuwe waarde: " + freeCallType);
+			params.add(new BasicNameValuePair("call", call));
+			params.add(new BasicNameValuePair("freeCallAn", freeCallAn));
+			params.add(new BasicNameValuePair("freeCallEn", freeCallEn));
+			params.add(new BasicNameValuePair("freeCallType", freeCallType));
+			params.add(new BasicNameValuePair("callInternational", callInternational));
+			
 			params.add(new BasicNameValuePair("id", id));
 			Log.d("json", id);
 
