@@ -38,7 +38,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
-public class ProviderList extends Activity implements 
+public class ProviderList extends Activity implements OnItemSelectedListener,
 		OnItemClickListener, OnItemLongClickListener {
 	ListAdapter adapter;
 	private int success;
@@ -92,14 +92,21 @@ public class ProviderList extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
 		lv = (ListView) findViewById(android.R.id.list);
-		
+		spinner = (Spinner) findViewById(R.id.spProvider);
 		providerList = new ArrayList<HashMap<String, String>>();
 		itemAdapter = new ItemAdapter(this, R.layout.list_item, abolist);
 
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.providers_array,
+				android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);
+		spinner.setOnItemSelectedListener(this);
 		lv.setLongClickable(true);
 		lv.setOnItemClickListener(this);
 		lv.setOnItemLongClickListener(this);
-		new getProviders().execute();
 
 	}
 
@@ -117,9 +124,8 @@ public class ProviderList extends Activity implements
 				// paramater sms verwijst naar de POST variabele sms in onze
 				// webservice
 
-				Bundle b = getIntent().getExtras();
-				String p = b.getString("provider");
-				params.add(new BasicNameValuePair("provider", p));
+				params.add(new BasicNameValuePair("provider", spinner
+						.getSelectedItem().toString()));
 
 				// hier voer je de POST uit op de webservice
 				JSONObject json = jsonParser.makeHttpRequest(INDEX_URL, "POST",
@@ -228,8 +234,18 @@ public class ProviderList extends Activity implements
 
 	}
 
-	
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		// TODO Auto-generated method stub
+		new getProviders().execute();
+	}
 
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
