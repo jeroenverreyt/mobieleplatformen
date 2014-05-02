@@ -82,7 +82,11 @@ public class EditData extends Fragment implements OnClickListener,
 		FormValidation val = new FormValidation();
 		switch (v.getId()) {
 		case R.id.bAdjustData:
-			if(!val.isStringNumeric(etData.getText().toString())){
+			if(etData.getText().toString().isEmpty()){
+				etData.setError("Veld mag niet leeg zijn");
+			}else if(etFreeData.getText().toString().isEmpty()){
+				etFreeData.setError("Veld mag niet leeg zijn");
+			}else if(!val.isStringNumeric(etData.getText().toString())){
 				etData.setError("Ingevoerde waarde moet een getal zijn!");
 					
 			}else if(!val.isStringNumeric(etFreeData.getText().toString())){

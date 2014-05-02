@@ -26,6 +26,12 @@
         android:layout_height="wrap_content"
         android:text="Gratis sms&apos;en naar eigen netwerk" />
 
+    <CheckBox
+        android:id="@+id/cbUnlimitedEn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Onbeperkt" />
+
     <EditText
         android:id="@+id/etFreeSmsEn"
         android:layout_width="match_parent"
@@ -41,6 +47,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gratis sms&apos;en naar elk netwerk" />
+
+    <CheckBox
+        android:id="@+id/cbUnlimitedAn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Onbeperkt" />
 
     <EditText
         android:id="@+id/etFreeSmsAn"

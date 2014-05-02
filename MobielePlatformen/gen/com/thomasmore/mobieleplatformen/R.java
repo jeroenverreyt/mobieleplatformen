@@ -28,23 +28,25 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09002e;
+        public static final int action_settings=0x7f090030;
         public static final int bAdjustCall=0x7f09000a;
         public static final int bAdjustData=0x7f09000e;
-        public static final int bAdjustSMS=0x7f09002b;
+        public static final int bAdjustSMS=0x7f09002d;
         public static final int bInsertNew=0x7f090018;
         public static final int bNext=0x7f09001b;
         public static final int bNext1=0x7f090020;
         public static final int bNext2=0x7f090015;
-        public static final int bToListView=0x7f09002d;
+        public static final int bToListView=0x7f09002f;
+        public static final int cbUnlimitedAn=0x7f09002a;
+        public static final int cbUnlimitedEn=0x7f090028;
         public static final int etCall=0x7f090001;
         public static final int etCallInternational=0x7f090003;
         public static final int etData=0x7f09000c;
         public static final int etFreeCalAn=0x7f090005;
         public static final int etFreeCallEn=0x7f090007;
         public static final int etFreeData=0x7f09000d;
-        public static final int etFreeSmsAn=0x7f090029;
-        public static final int etFreeSmsEn=0x7f090028;
+        public static final int etFreeSmsAn=0x7f09002b;
+        public static final int etFreeSmsEn=0x7f090029;
         public static final int etNewCall=0x7f090010;
         public static final int etNewCallInternational=0x7f090011;
         public static final int etNewData=0x7f090016;
@@ -62,10 +64,10 @@ public final class R {
         public static final int lv=0x7f090021;
         public static final int pager=0x7f09000f;
         public static final int spFreeCallType=0x7f090009;
-        public static final int spFreeSmsType=0x7f09002a;
+        public static final int spFreeSmsType=0x7f09002c;
         public static final int spNewFreeCallType=0x7f090014;
         public static final int spNewFreeSmsType=0x7f09001f;
-        public static final int spProvider=0x7f09002c;
+        public static final int spProvider=0x7f09002e;
         public static final int textView=0x7f090025;
         public static final int textView1=0x7f090000;
         public static final int textView2=0x7f090008;

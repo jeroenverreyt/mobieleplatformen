@@ -113,7 +113,15 @@ public class EditCall extends Fragment implements OnClickListener,
 		switch (v.getId()) {
 		
 		case R.id.bAdjustCall:
-			if(!val.isStringNumeric(etCall.getText().toString())){
+			if(etCall.getText().toString().isEmpty()){
+				etCall.setError("Veld mag niet leeg zijn");
+			}else if(etCallInternational.getText().toString().isEmpty()){
+				etCallInternational.setError("Veld mag niet leeg zijn");
+			}else if(etFreeCallEn.getText().toString().isEmpty()){
+				etFreeCallEn.setError("Veld mag niet leeg zijn");
+			}else if(etFreeCallEn.getText().toString().isEmpty()){
+				etFreeCallEn.setError("Veld mag niet leeg zijn");
+			}else if(!val.isStringNumeric(etCall.getText().toString())){
 				etCall.setError("Ingevoerde waarde moet een getal zijn!");
 					
 			}else if(!val.isStringNumeric(etCallInternational.getText().toString())){
