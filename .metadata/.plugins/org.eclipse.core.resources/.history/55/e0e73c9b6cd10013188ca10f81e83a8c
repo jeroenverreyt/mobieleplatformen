@@ -27,7 +27,6 @@ public class InsertData extends Activity implements OnClickListener {
 			freeCallEn, freeCallAn, callInternational, freeCallType,
 			freeSmsType, data, freeData;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -86,7 +85,6 @@ public class InsertData extends Activity implements OnClickListener {
 			i.putExtras(bundle);
 			startActivity(i);
 
-		  
 		}
 	}
 

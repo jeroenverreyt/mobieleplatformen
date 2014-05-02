@@ -413,4 +413,4 @@ public class ProviderList extends Activity implements
 		}
 		
 	}
-
+}

@@ -29,32 +29,20 @@ public class Insert extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		FormValidation val = new FormValidation();
+		
 		String name = etName.getText().toString();
 		String price = etPrice.getText().toString();
-		if(name.isEmpty()){
-			etName.setError("Gelieve een naam in te vullen!");
-		}else if (price.isEmpty()){
-			etPrice.setError("Gelieve een prijs in te vullen!");
-		}else if(!val.isStringNumeric(price)){
-			etPrice.setError("Prijs moet een getal zijn!");
-		}else if(!val.isPositive(price)){
-			etPrice.setError("Prijs moet een positief getal zijn!");
-			
-		}else{
-			Bundle b = getIntent().getExtras();
-			String provider = b.getString("provider");
-			Log.d("basket", "insert: " + provider);
-			Bundle basket = new Bundle();
-			basket.putString("name", name);
-			basket.putString("price", price);
-			basket.putString("provider", provider);
-			Intent i = new Intent(Insert.this, InsertSms.class);
-			i.putExtras(basket);
-			
-			startActivity(i);
-		}
+		Bundle b = getIntent().getExtras();
+		String provider = b.getString("provider");
+		Log.d("basket", "insert: " + provider);
+		Bundle basket = new Bundle();
+		basket.putString("name", name);
+		basket.putString("price", price);
+		basket.putString("provider", provider);
+		Intent i = new Intent(Insert.this, InsertSms.class);
+		i.putExtras(basket);
 		
+		startActivity(i);
 		
 		
 		

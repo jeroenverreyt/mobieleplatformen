@@ -44,7 +44,7 @@ public class InsertSms extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		FormValidation val = new FormValidation();
+		
 		Bundle b = getIntent().getExtras();
 		String name = b.getString("name");
 		String price = b.getString("price");
@@ -52,7 +52,6 @@ public class InsertSms extends Activity implements OnClickListener {
 		String sms = etSMS.getText().toString();
 		String freeSmsEn = etFreeSmsEn.getText().toString();
 		String freeSmsAn = etFreeSmsAn.getText().toString();
-		
 		String freeSmsType = "";
 		if (spinner.getSelectedItemId() == 0) {
 			freeSmsType = "N";
@@ -62,42 +61,20 @@ public class InsertSms extends Activity implements OnClickListener {
 			freeSmsType="AW";
 		}
 		
-		if(sms.isEmpty()){
-			etSMS.setError("Gelieve een prijs in te geven");
-		}else if(freeSmsEn.isEmpty()){
-			etFreeSmsEn.setError("Gelieve een prijs in te geven");
-			
-		}else if(freeSmsAn.isEmpty()){
-			etFreeSmsAn.setError("Gelieve een prijs in te geven");
-		}else if(!val.isStringNumeric(sms)){
-			etSMS.setError("Voer een correct getal in");
-		}else if(!val.isStringNumeric(freeSmsAn)){
-			etFreeSmsAn.setError("Voer een correct getal in");
-		}else if(!val.isStringNumeric(freeSmsEn)){
-			etFreeSmsEn.setError("Voer een correct getal in");
-		}else if(!val.isPositive(sms)){
-			etSMS.setError("Getal moet positief zijn");
-		}else if(!val.isPositive(freeSmsAn)){
-			etFreeSmsAn.setError("Getal moet positief zijn");
-		}else if(!val.isPositive(freeSmsEn)){
-			etFreeSmsEn.setError("Getal moet positief zijn");
-		}else{
-			Bundle basket = new Bundle();
-			basket.putString("sms", sms);
-			
-			basket.putString("provider", provider);
-			basket.putString("freeSmsEn", freeSmsEn);
-			basket.putString("freeSmsAn", freeSmsAn);
-			basket.putString("name", name);
-			basket.putString("price",price);
-			basket.putString("freeSmsType",freeSmsType);
-			Intent i = new Intent(InsertSms.this, InsertCall.class);
-			i.putExtras(basket);
-			Log.d("basket", "name: " + name + "  price  "+ price + "  sms "+sms + "  freeSmsEn " + freeSmsEn + "  freeSmsAn " + freeSmsAn);
-			
-			startActivity(i);
-		}
-	
+		Bundle basket = new Bundle();
+		basket.putString("sms", sms);
+		
+		basket.putString("provider", provider);
+		basket.putString("freeSmsEn", freeSmsEn);
+		basket.putString("freeSmsAn", freeSmsAn);
+		basket.putString("name", name);
+		basket.putString("price",price);
+		basket.putString("freeSmsType",freeSmsType);
+		Intent i = new Intent(InsertSms.this, InsertCall.class);
+		i.putExtras(basket);
+		Log.d("basket", "name: " + name + "  price  "+ price + "  sms "+sms + "  freeSmsEn " + freeSmsEn + "  freeSmsAn " + freeSmsAn);
+		
+		startActivity(i);
 		
 		
 		

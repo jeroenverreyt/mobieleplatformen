@@ -17,35 +17,32 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class InsertData extends Activity implements OnClickListener {
+public class InsertData extends Activity implements OnClickListener{
 
-	private EditText etData, etFreeData;
+	private EditText etData,  etFreeData;
 	private Button bFinish;
 	private JSONParser jsonParser = new JSONParser();
 	private static final String INSERT_URL = "http://www.abochecker.tk/webservice/insert.php";
-	private String name, provider, price, sms, freeSmsEn, freeSmsAn, call,
-			freeCallEn, freeCallAn, callInternational, freeCallType,
-			freeSmsType, data, freeData;
-
-	
+	private String name, provider, price, sms, freeSmsEn, freeSmsAn, call, freeCallEn, freeCallAn, callInternational, freeCallType, freeSmsType, data, freeData;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insertdata);
-
-		etData = (EditText) findViewById(R.id.etNewData);
-		etFreeData = (EditText) findViewById(R.id.etNewFreeData);
-
-		bFinish = (Button) findViewById(R.id.bInsertNew);
+		
+		etData = (EditText)findViewById(R.id.etNewData);
+		etFreeData = (EditText)findViewById(R.id.etNewFreeData);
+	
+		bFinish = (Button)findViewById(R.id.bInsertNew);
 		bFinish.setOnClickListener(this);
-
+		
+		
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-
+		
 		Bundle b = getIntent().getExtras();
 		name = b.getString("name");
 		provider = b.getString("provider");
@@ -61,33 +58,12 @@ public class InsertData extends Activity implements OnClickListener {
 		freeSmsType = b.getString("freeSmsType");
 		data = etData.getText().toString();
 		freeData = etFreeData.getText().toString();
+		
+		new insert().execute();
+		Intent i = new Intent(InsertData.this, ProviderList.class);
+		startActivity(i);
 
-		FormValidation val = new FormValidation();
-		if (data.isEmpty()) {
-			etData.setError("Gelieve een waarde in te geven");
-		} else if (freeData.isEmpty()) {
-			etFreeData.setError("Gelieve een waarde in te geven");
-
-		} else if (!val.isStringNumeric(data)) {
-			etData.setError("Voer een correct getal in");
-		} else if (!val.isStringNumeric(freeData)) {
-			etFreeData.setError("Voer een correct getal in");
-		} else if (!val.isPositive(data)) {
-			etData.setError("Getal moet positief zijn");
-		} else if (!val.isPositive(freeData)) {
-			etFreeData.setError("Getal moet positief zijn");
-		} else {
-
-			new insert().execute();
-			Bundle bundle = new Bundle();
-			bundle.putString("provider",provider);
-			
-			Intent i = new Intent(InsertData.this, ProviderList.class);
-			i.putExtras(bundle);
-			startActivity(i);
-
-		  
-		}
+		
 	}
 
 	class insert extends AsyncTask<String, String, String> {
@@ -102,18 +78,19 @@ public class InsertData extends Activity implements OnClickListener {
 			params.add(new BasicNameValuePair("price", price));
 			params.add(new BasicNameValuePair("sms", sms));
 			params.add(new BasicNameValuePair("freeSmsEn", freeSmsEn));
-
+			
 			params.add(new BasicNameValuePair("freeSmsAn", freeSmsAn));
 			params.add(new BasicNameValuePair("call", call));
 			params.add(new BasicNameValuePair("freeCallEn", freeCallEn));
 			params.add(new BasicNameValuePair("freeCallAn", freeCallAn));
-			params.add(new BasicNameValuePair("callInternational",
-					callInternational));
-
+			params.add(new BasicNameValuePair("callInternational", callInternational));
+			
 			params.add(new BasicNameValuePair("freeCallType", freeCallType));
 			params.add(new BasicNameValuePair("freeSmsType", freeSmsType));
 			params.add(new BasicNameValuePair("data", data));
 			params.add(new BasicNameValuePair("freeData", freeData));
+			
+						
 
 			// hier voer je de POST uit op de webservice
 			JSONObject json = jsonParser.makeHttpRequest(INSERT_URL, "POST",

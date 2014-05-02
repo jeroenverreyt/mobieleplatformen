@@ -27,7 +27,6 @@ public class InsertData extends Activity implements OnClickListener {
 			freeCallEn, freeCallAn, callInternational, freeCallType,
 			freeSmsType, data, freeData;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -79,14 +78,9 @@ public class InsertData extends Activity implements OnClickListener {
 		} else {
 
 			new insert().execute();
-			Bundle bundle = new Bundle();
-			bundle.putString("provider",provider);
-			
 			Intent i = new Intent(InsertData.this, ProviderList.class);
-			i.putExtras(bundle);
 			startActivity(i);
 
-		  
 		}
 	}
 

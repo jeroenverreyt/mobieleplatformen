@@ -68,7 +68,7 @@ public class InsertCall extends Activity implements OnClickListener {
 
 		FormValidation val = new FormValidation();
 		if (call.isEmpty()) {
-			etCall.setError("Gelieve een waarde in te geven");
+			etCall.setError("Gelieve iet een waarde in te geven");
 		} else if (callInternational.isEmpty()) {
 			etCallInternational.setError("Gelieve een waarde in te geven");
 

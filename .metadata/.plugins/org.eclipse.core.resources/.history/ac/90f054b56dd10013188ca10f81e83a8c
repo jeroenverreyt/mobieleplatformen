@@ -102,7 +102,15 @@ public class ProviderList extends Activity implements
 		new getProviders().execute();
 
 	}
-
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		Intent intent = new Intent(ProviderList.this, StartScreen.class);
+		startActivity(intent);
+		}
+		
+	}
 	class getProviders extends AsyncTask<String, String, String> {
 		private ProgressDialog dialog;
 
@@ -403,14 +411,4 @@ public class ProviderList extends Activity implements
 			return null;
 		}
 	}
-	
-	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		super.onBackPressed();
-		Intent intent = new Intent(ProviderList.this, StartScreen.class);
-		startActivity(intent);
-		}
-		
-	}
-
+}
