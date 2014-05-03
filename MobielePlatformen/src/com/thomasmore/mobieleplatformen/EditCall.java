@@ -19,8 +19,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,7 +35,9 @@ public class EditCall extends Fragment implements OnClickListener,
 	private EditText etCall, etFreeCallEn, etFreeCallAn, etCallInternational;
 	private ArrayList<Abo> abolist;
 	private int position;
-	private String call, freeCallEn, freeCallAn, freeCallType, id, callInternational;
+	private String call, freeCallEn, freeCallAn, freeCallType, id,
+			callInternational;
+	private CheckBox cbFreeCallAn, cbFreeCallEn;
 	private JSONParser jsonParser = new JSONParser();
 
 	// link naar de webservice
@@ -41,7 +46,7 @@ public class EditCall extends Fragment implements OnClickListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View editsms = inflater.inflate(R.layout.call_frag, container, false);
+		View editcall = inflater.inflate(R.layout.call_frag, container, false);
 
 		EditBundle b = (EditBundle) getActivity();
 		position = b.getPosition();
@@ -53,22 +58,65 @@ public class EditCall extends Fragment implements OnClickListener,
 		freeCallAn = String.valueOf(abolist.get(position).getGr_bel());
 		freeCallType = String.valueOf(abolist.get(position).getGr_bel_type());
 		callInternational = String.valueOf(abolist.get(position).getBel_bui());
-		
+
 		id = String.valueOf(abolist.get(position).getId());
 
-		etCall = (EditText) editsms.findViewById(R.id.etCall);
-		etFreeCallEn = (EditText) editsms.findViewById(R.id.etFreeCallEn);
-		etFreeCallAn = (EditText) editsms.findViewById(R.id.etFreeCalAn);
-		etCallInternational = (EditText)editsms.findViewById(R.id.etCallInternational);
-		
-		spinner = (Spinner) editsms.findViewById(R.id.spFreeCallType);
+		etCall = (EditText) editcall.findViewById(R.id.etCall);
+		etFreeCallEn = (EditText) editcall.findViewById(R.id.etFreeCallEn);
+		etFreeCallAn = (EditText) editcall.findViewById(R.id.etFreeCalAn);
+		etCallInternational = (EditText) editcall
+				.findViewById(R.id.etCallInternational);
 
-		bChangeCall = (Button) editsms.findViewById(R.id.bAdjustCall);
+		cbFreeCallAn = (CheckBox) editcall.findViewById(R.id.cbFreeCallAn);
+		cbFreeCallEn = (CheckBox) editcall.findViewById(R.id.cbFreeCallEn);
+
+		spinner = (Spinner) editcall.findViewById(R.id.spFreeCallType);
+
+		bChangeCall = (Button) editcall.findViewById(R.id.bAdjustCall);
 		bChangeCall.setOnClickListener(this);
 
 		etCall.setText(call);
+
 		etFreeCallAn.setText(freeCallAn);
 		etFreeCallEn.setText(freeCallEn);
+
+		if (freeCallEn.equals("Onbeperkt")) {
+			cbFreeCallEn.setChecked(true);
+			etFreeCallEn.setText("");
+			etFreeCallEn.setEnabled(false);
+
+		}
+		if (freeCallAn.equals("Onbeperkt")) {
+			cbFreeCallAn.setChecked(true);
+			etFreeCallAn.setText("");
+			etFreeCallAn.setEnabled(false);
+
+		}
+
+		cbFreeCallAn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					etFreeCallAn.setEnabled(false);
+				} else {
+					etFreeCallAn.setEnabled(true);
+				}
+
+			}
+		});
+
+		cbFreeCallEn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					etFreeCallEn.setEnabled(false);
+				} else {
+					etFreeCallEn.setEnabled(true);
+				}
+
+			}
+		});
+
 		etCallInternational.setText(callInternational);
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -90,7 +138,7 @@ public class EditCall extends Fragment implements OnClickListener,
 
 		}
 		Log.d("spinner", freeCallType);
-		return editsms;
+		return editcall;
 	}
 
 	@Override
@@ -111,46 +159,47 @@ public class EditCall extends Fragment implements OnClickListener,
 		// TODO Auto-generated method stub
 		FormValidation val = new FormValidation();
 		switch (v.getId()) {
-		
+
 		case R.id.bAdjustCall:
-			if(etCall.getText().toString().isEmpty()){
+			if (etCall.getText().toString().isEmpty()) {
 				etCall.setError("Veld mag niet leeg zijn");
-			}else if(etCallInternational.getText().toString().isEmpty()){
+			} else if (etCallInternational.getText().toString().isEmpty()) {
 				etCallInternational.setError("Veld mag niet leeg zijn");
-			}else if(etFreeCallEn.getText().toString().isEmpty()){
+			} else if (!cbFreeCallEn.isChecked() && etFreeCallEn.getText().toString().isEmpty()) {
 				etFreeCallEn.setError("Veld mag niet leeg zijn");
-			}else if(etFreeCallEn.getText().toString().isEmpty()){
-				etFreeCallEn.setError("Veld mag niet leeg zijn");
-			}else if(!val.isStringNumeric(etCall.getText().toString())){
+			} else if (!cbFreeCallAn.isChecked() && etFreeCallAn.getText().toString().isEmpty()) {
+				etFreeCallAn.setError("Veld mag niet leeg zijn");
+			} else if (!val.isStringNumeric(etCall.getText().toString())) {
 				etCall.setError("Ingevoerde waarde moet een getal zijn!");
-					
-			}else if(!val.isStringNumeric(etCallInternational.getText().toString())){
-				etCallInternational.setError("Ingevoerde waarde moet een getal zijn!");
-			}else if(!val.isStringNumeric(etFreeCallAn.getText().toString())){
+
+			} else if (!val.isStringNumeric(etCallInternational.getText()
+					.toString())) {
+				etCallInternational
+						.setError("Ingevoerde waarde moet een getal zijn!");
+			} else if (!cbFreeCallAn.isChecked() && !val.isStringNumeric(etFreeCallAn.getText().toString())) {
 				etFreeCallAn.setError("Ingevoerde waarde moet een getal zijn!");
-			
-			}else if(!val.isStringNumeric(etFreeCallEn.getText().toString())){
+
+			} else if (!cbFreeCallEn.isChecked() && !val.isStringNumeric(etFreeCallEn.getText().toString())) {
 				etFreeCallEn.setError("Ingevoerde waarde moet een getal zijn!");
-			
-			}else if (!val.isPositive(etCall.getText().toString())) {
-				
+
+			} else if (!val.isPositive(etCall.getText().toString())) {
+
 				etCall.setError("Moet een positief getal zijn");
-				
-			}else if (!val.isPositive(etCallInternational.getText().toString())) {
+
+			} else if (!val
+					.isPositive(etCallInternational.getText().toString())) {
 				etCallInternational.setError("Moet een positief getal zijn");
-			
-			}else if (!val.isPositive(etFreeCallAn.getText().toString())) {
+
+			} else if (!cbFreeCallAn.isChecked() && !val.isPositive(etFreeCallAn.getText().toString())) {
 				etFreeCallAn.setError("Moet een positief getal zijn");
-			}else if (!val.isPositive(etFreeCallEn.getText().toString())) {
+			} else if (!cbFreeCallEn.isChecked() && !val.isPositive(etFreeCallEn.getText().toString())) {
 				etFreeCallEn.setError("Moet een positief getal zijn");
-			}
-			else{
+			} else {
 				Log.d("numeric", "alles inorde");
 				new updateCall().execute();
 			}
 			break;
 		}
-		
 
 	}
 
@@ -166,12 +215,26 @@ public class EditCall extends Fragment implements OnClickListener,
 			freeCallEn = etFreeCallEn.getText().toString();
 			callInternational = etCallInternational.getText().toString();
 
+			if (cbFreeCallAn.isChecked()) {
+				freeCallAn = "Onbeperkt";
+				Log.d("checkbox", "checked");
+				Log.d("checkbox", freeCallAn);
+			} else {
+				freeCallAn = etFreeCallAn.getText().toString();
+			}
+			if (cbFreeCallEn.isChecked()) {
+				freeCallEn = "Onbeperkt";
+				Log.d("checkbox", "checked");
+				Log.d("checkbox", freeCallEn);
+			} else {
+				freeCallEn = etFreeCallEn.getText().toString();
+			}
 			if (spinner.getSelectedItemId() == 0) {
 				freeCallType = "N";
-			}else if(spinner.getSelectedItemId() == 1){
+			} else if (spinner.getSelectedItemId() == 1) {
 				freeCallType = "W";
-			}else if(spinner.getSelectedItemId()==2){
-				freeCallType="AW";
+			} else if (spinner.getSelectedItemId() == 2) {
+				freeCallType = "AW";
 			}
 
 			Log.d("spinner", "nieuwe waarde: " + freeCallType);
@@ -179,8 +242,9 @@ public class EditCall extends Fragment implements OnClickListener,
 			params.add(new BasicNameValuePair("freeCallAn", freeCallAn));
 			params.add(new BasicNameValuePair("freeCallEn", freeCallEn));
 			params.add(new BasicNameValuePair("freeCallType", freeCallType));
-			params.add(new BasicNameValuePair("callInternational", callInternational));
-			
+			params.add(new BasicNameValuePair("callInternational",
+					callInternational));
+
 			params.add(new BasicNameValuePair("id", id));
 			Log.d("json", id);
 

@@ -159,27 +159,29 @@ public class EditSms extends Fragment implements OnClickListener,
 			} else if (etFreeSmsEn.getText().toString().isEmpty()
 					&& !cbUnlimitedEn.isChecked()) {
 				etFreeSmsEn.setError("Veld mag niet leeg zijn");
+				
 			} else if (!val.isStringNumeric(etSms.getText().toString())) {
 				etSms.setError("Ingevoerde waarde moet een getal zijn!");
-			} else if (!val.isStringNumeric(etFreeSmsEn.getText().toString())) {
+				
+			} else if (!cbUnlimitedEn.isChecked() && !val.isStringNumeric(etFreeSmsEn.getText().toString())) {
 				
 				etFreeSmsEn.setError("Ingevoerde waarde moet een getal zijn!");
-			} else if (!val.isStringNumeric(etFreeSmsAn.getText().toString()))
+			} else if (!cbUnlimitedAn.isChecked() && !val.isStringNumeric(etFreeSmsAn.getText().toString()))
 					 {
 				etFreeSmsAn.setError("Ingevoerde waarde moet een getal zijn!");
 			} else if (!val.isPositive(etSms.getText().toString())) {
 
 				etSms.setError("Moet een positief getal zijn");
 
-			} else if (!val.isPositive(etFreeSmsEn.getText().toString())
+			} else if (!cbUnlimitedEn.isChecked() && !val.isPositive(etFreeSmsEn.getText().toString())
 					){
 				etFreeSmsEn.setError("Moet een positief getal zijn");
 
-			} else if (!val.isPositive(etFreeSmsAn.getText().toString())
-					) {
+			} else if ((!cbUnlimitedAn.isChecked() &&!val.isPositive(etFreeSmsAn.getText().toString())))
+					 {
 				etFreeSmsAn.setError("Moet een positief getal zijn");
 			} else {
-				Log.d("numeric", "alles inorde");
+				Log.d("validation", "alles inorde");
 				new updateSMS().execute();
 			}
 			break;

@@ -8,14 +8,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class InsertCall extends Activity implements OnClickListener {
 
 	private EditText etCall, etFreeCallEn, etFreeCallAn, etCallInternational;
 	private Button bNext;
 	private Spinner spinner;
+	private CheckBox cbFreeCallEn, cbFreeCallAn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,34 @@ public class InsertCall extends Activity implements OnClickListener {
 		bNext = (Button) findViewById(R.id.bNext2);
 		bNext.setOnClickListener(this);
 
+		cbFreeCallEn = (CheckBox)findViewById(R.id.cbNewFreeCallEn);
+		cbFreeCallAn = (CheckBox)findViewById(R.id.cbNewFreeCallAn);
+		
+
+		cbFreeCallAn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					etFreeCallAn.setEnabled(false);
+				} else {
+					etFreeCallAn.setEnabled(true);
+				}
+
+			}
+		});
+
+		cbFreeCallEn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					etFreeCallEn.setEnabled(false);
+				} else {
+					etFreeCallEn.setEnabled(true);
+				}
+
+			}
+		});
+		
 		spinner = (Spinner) findViewById(R.id.spNewFreeCallType);
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -58,6 +90,19 @@ public class InsertCall extends Activity implements OnClickListener {
 		String freeCallAn = etFreeCallAn.getText().toString();
 		String callInternational = etCallInternational.getText().toString();
 		String freeCallType = "";
+		
+		if (cbFreeCallAn.isChecked()) {
+			freeCallAn = "Onbeperkt";
+			Log.d("checkbox", "checked");
+			Log.d("checkbox", freeSmsAn);
+		} 
+		
+		if (cbFreeCallEn.isChecked()) {
+			freeCallEn = "Onbeperkt";
+			Log.d("checkbox", "checked");
+			Log.d("checkbox", freeSmsEn);
+		}
+		
 		if (spinner.getSelectedItemId() == 0) {
 			freeCallType = "N";
 		} else if (spinner.getSelectedItemId() == 1) {
@@ -72,25 +117,25 @@ public class InsertCall extends Activity implements OnClickListener {
 		} else if (callInternational.isEmpty()) {
 			etCallInternational.setError("Gelieve een waarde in te geven");
 
-		} else if (freeCallAn.isEmpty()) {
+		} else if (!cbFreeCallAn.isChecked() && freeCallAn.isEmpty()) {
 			etFreeCallAn.setError("Gelieve een waarde in te geven");
-		} else if (freeCallEn.isEmpty()) {
+		} else if (!cbFreeCallEn.isChecked() && freeCallEn.isEmpty()) {
 			etFreeCallEn.setError("Gelieve een waarde in te geven");
 		} else if (!val.isStringNumeric(call)) {
 			etCall.setError("Voer een correct getal in");
 		} else if (!val.isStringNumeric(callInternational)) {
 			etCallInternational.setError("Voer een correct getal in");
-		} else if (!val.isStringNumeric(freeCallAn)) {
+		} else if (!cbFreeCallAn.isChecked() && !val.isStringNumeric(freeCallAn)) {
 			etFreeCallAn.setError("Voer een correct getal in");
-		} else if (!val.isStringNumeric(freeCallEn)) {
+		} else if (!cbFreeCallEn.isChecked() && !val.isStringNumeric(freeCallEn)) {
 			etFreeCallEn.setError("Voer een correct getal in");
 		} else if (!val.isPositive(call)) {
 			etCall.setError("Getal moet positief zijn");
 		} else if (!val.isPositive(callInternational)) {
 			etCallInternational.setError("Getal moet positief zijn");
-		} else if (!val.isPositive(freeCallAn)) {
+		} else if (!cbFreeCallAn.isChecked() && !val.isPositive(freeCallAn)) {
 			etFreeCallAn.setError("Getal moet positief zijn");
-		} else if (!val.isPositive(freeCallEn)) {
+		} else if (!cbFreeCallEn.isChecked() && !val.isPositive(freeCallEn)) {
 			etFreeCallEn.setError("Getal moet positief zijn");
 		} else {
 			Bundle basket = new Bundle();

@@ -8,28 +8,60 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class InsertSms extends Activity implements OnClickListener {
-	private EditText etSMS, etFreeSmsEn, etFreeSmsAn ;
+	private EditText etSMS, etFreeSmsEn, etFreeSmsAn;
 	private Button bNext;
 	private Spinner spinner;
-	
+	private CheckBox cbFreeSmsEn, cbFreeSmsAn;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insertsms);
-		
-		etSMS = (EditText)findViewById(R.id.etNewSMS);
-		etFreeSmsEn = (EditText)findViewById(R.id.etNewFreeSmsEn);
-		etFreeSmsAn = (EditText)findViewById(R.id.etNewFreeSmsAn);
-		
-		bNext = (Button)findViewById(R.id.bNext1);
+
+		etSMS = (EditText) findViewById(R.id.etNewSMS);
+		etFreeSmsEn = (EditText) findViewById(R.id.etNewFreeSmsEn);
+		etFreeSmsAn = (EditText) findViewById(R.id.etNewFreeSmsAn);
+
+		cbFreeSmsEn = (CheckBox) findViewById(R.id.cbNewFreeSmsEn);
+		cbFreeSmsAn = (CheckBox) findViewById(R.id.cbNewFreeSmsAn);
+
+		bNext = (Button) findViewById(R.id.bNext1);
 		bNext.setOnClickListener(this);
-		
+
 		spinner = (Spinner) findViewById(R.id.spNewFreeSmsType);
+		
+
+		cbFreeSmsAn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					etFreeSmsAn.setEnabled(false);
+				} else {
+					etFreeSmsAn.setEnabled(true);
+				}
+
+			}
+		});
+
+		cbFreeSmsEn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					etFreeSmsEn.setEnabled(false);
+				} else {
+					etFreeSmsEn.setEnabled(true);
+				}
+
+			}
+		});
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.freeSmsType_aray,
@@ -38,7 +70,7 @@ public class InsertSms extends Activity implements OnClickListener {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
-		
+
 	}
 
 	@Override
@@ -52,56 +84,64 @@ public class InsertSms extends Activity implements OnClickListener {
 		String sms = etSMS.getText().toString();
 		String freeSmsEn = etFreeSmsEn.getText().toString();
 		String freeSmsAn = etFreeSmsAn.getText().toString();
-		
+
+		if (cbFreeSmsAn.isChecked()) {
+			freeSmsAn = "Onbeperkt";
+			Log.d("checkbox", "checked");
+			Log.d("checkbox", freeSmsAn);
+		} 
+		if (cbFreeSmsEn.isChecked()) {
+			freeSmsEn = "Onbeperkt";
+			Log.d("checkbox", "checked");
+			Log.d("checkbox", freeSmsEn);
+		}
 		String freeSmsType = "";
 		if (spinner.getSelectedItemId() == 0) {
 			freeSmsType = "N";
-		}else if(spinner.getSelectedItemId() == 1){
+		} else if (spinner.getSelectedItemId() == 1) {
 			freeSmsType = "W";
-		}else if(spinner.getSelectedItemId()==2){
-			freeSmsType="AW";
+		} else if (spinner.getSelectedItemId() == 2) {
+			freeSmsType = "AW";
 		}
-		
-		if(sms.isEmpty()){
+
+		if (sms.isEmpty()) {
 			etSMS.setError("Gelieve een prijs in te geven");
-		}else if(freeSmsEn.isEmpty()){
+		} else if (!cbFreeSmsEn.isChecked() && freeSmsEn.isEmpty()) {
 			etFreeSmsEn.setError("Gelieve een prijs in te geven");
-			
-		}else if(freeSmsAn.isEmpty()){
+
+		} else if (!cbFreeSmsAn.isChecked() && freeSmsAn.isEmpty()) {
 			etFreeSmsAn.setError("Gelieve een prijs in te geven");
-		}else if(!val.isStringNumeric(sms)){
+		} else if (!val.isStringNumeric(sms)) {
 			etSMS.setError("Voer een correct getal in");
-		}else if(!val.isStringNumeric(freeSmsAn)){
+		} else if (!cbFreeSmsAn.isChecked() && !val.isStringNumeric(freeSmsAn)) {
 			etFreeSmsAn.setError("Voer een correct getal in");
-		}else if(!val.isStringNumeric(freeSmsEn)){
+		} else if (!cbFreeSmsEn.isChecked() && !val.isStringNumeric(freeSmsEn)) {
 			etFreeSmsEn.setError("Voer een correct getal in");
-		}else if(!val.isPositive(sms)){
+		} else if (!val.isPositive(sms)) {
 			etSMS.setError("Getal moet positief zijn");
-		}else if(!val.isPositive(freeSmsAn)){
+		} else if (!cbFreeSmsAn.isChecked() && !val.isPositive(freeSmsAn)) {
 			etFreeSmsAn.setError("Getal moet positief zijn");
-		}else if(!val.isPositive(freeSmsEn)){
+		} else if (!cbFreeSmsEn.isChecked() && !val.isPositive(freeSmsEn)) {
 			etFreeSmsEn.setError("Getal moet positief zijn");
-		}else{
+		} else {
 			Bundle basket = new Bundle();
 			basket.putString("sms", sms);
-			
+
 			basket.putString("provider", provider);
 			basket.putString("freeSmsEn", freeSmsEn);
 			basket.putString("freeSmsAn", freeSmsAn);
 			basket.putString("name", name);
-			basket.putString("price",price);
-			basket.putString("freeSmsType",freeSmsType);
+			basket.putString("price", price);
+			basket.putString("freeSmsType", freeSmsType);
 			Intent i = new Intent(InsertSms.this, InsertCall.class);
 			i.putExtras(basket);
-			Log.d("basket", "name: " + name + "  price  "+ price + "  sms "+sms + "  freeSmsEn " + freeSmsEn + "  freeSmsAn " + freeSmsAn);
-			
+			Log.d("basket", "name: " + name + "  price  " + price + "  sms "
+					+ sms + "  freeSmsEn " + freeSmsEn + "  freeSmsAn "
+					+ freeSmsAn);
+
 			startActivity(i);
 		}
-	
-		
-		
-		
+
 	}
 
-	
 }
