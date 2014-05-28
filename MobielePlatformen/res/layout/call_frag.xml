@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Beltarief" />
+
+    <EditText
+        android:id="@+id/etCall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bellen naar het buitenland" />
+
+    <EditText
+        android:id="@+id/etCallInternational"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal|text" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gratis belminuten naar elk netwerk" />
+
+    <CheckBox
+        android:id="@+id/cbFreeCallAn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Onbeperkt" />
+
+    <EditText
+        android:id="@+id/etFreeCalAn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal|text" >
+
+        <requestFocus />
+    </EditText>
+     <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gratis belminuten naar eigen netwerk" />
+
+     <CheckBox
+         android:id="@+id/cbFreeCallEn"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Onbeperkt" />
+
+    <EditText
+        android:id="@+id/etFreeCallEn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal|text" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wanneer zijn de gratis belminuten geldig?" />
+
+    <Spinner
+        android:id="@+id/spFreeCallType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/bAdjustCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Opslaan wijzigingen" />
+
+</LinearLayout>
