@@ -1,7 +1,6 @@
 package com.thomasmore.mobieleplatformen;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 
 import org.apache.http.NameValuePair;
@@ -13,14 +12,11 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,12 +34,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
-public class ProviderList extends Activity implements 
-		OnItemClickListener, OnItemLongClickListener {
+public class ProviderList extends Activity implements OnItemClickListener,
+		OnItemSelectedListener, OnItemLongClickListener {
 	ListAdapter adapter;
 	private int success;
 	private ItemAdapter itemAdapter;
-	Spinner spinner;
 	private JSONParser jsonParser = new JSONParser();
 	private JSONArray listProv = null;
 	private ArrayList<Abo> abolist = new ArrayList<Abo>();
@@ -85,14 +80,16 @@ public class ProviderList extends Activity implements
 	private String newName;
 	ListView lv;
 	private AlertDialog alertDialog;
+	private Spinner spinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
+
 		lv = (ListView) findViewById(android.R.id.list);
-		
+
 		providerList = new ArrayList<HashMap<String, String>>();
 		itemAdapter = new ItemAdapter(this, R.layout.list_item, abolist);
 
@@ -112,15 +109,17 @@ public class ProviderList extends Activity implements
 			Log.d("test", "doInBackground");
 
 			try {
-
 				ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 				// paramater sms verwijst naar de POST variabele sms in onze
 				// webservice
 
-				Bundle b = getIntent().getExtras();
-				String p = b.getString("provider");
-				params.add(new BasicNameValuePair("provider", p));
+				String p = "";
+				p += "Base,";
+				p += "Mobistar,";
+				p += "Mobile Vikings,";
+				p += "Proximus,";
 
+				params.add(new BasicNameValuePair("provider", p));
 				// hier voer je de POST uit op de webservice
 				JSONObject json = jsonParser.makeHttpRequest(INDEX_URL, "POST",
 						params);
@@ -228,9 +227,6 @@ public class ProviderList extends Activity implements
 
 	}
 
-	
-
-
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 			long arg3) {
@@ -260,12 +256,12 @@ public class ProviderList extends Activity implements
 				new delete().execute();
 
 				break;
-				
-			case 3: 
+
+			case 3:
 				String provider = abolist.get(pos).getProvider();
 				Log.d("basket", provider);
 				Bundle b = new Bundle();
-				b.putString("provider",provider );
+				b.putString("provider", provider);
 				Intent intent = new Intent(ProviderList.this, Insert.class);
 				intent.putExtras(b);
 				startActivity(intent);
@@ -285,7 +281,8 @@ public class ProviderList extends Activity implements
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
 		pos = arg2;
-		String names[] = { "Naam wijzigen", "Prijzen aanpassen", "Verwijderen", "Nieuw tarief" };
+		String names[] = { "Naam wijzigen", "Prijzen aanpassen", "Verwijderen",
+				"Nieuw tarief" };
 		alertDialog = new AlertDialog.Builder(this).create();
 		LayoutInflater inflater = getLayoutInflater();
 		View convertView = (View) inflater.inflate(R.layout.custom, null);
@@ -403,14 +400,26 @@ public class ProviderList extends Activity implements
 			return null;
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 		Intent intent = new Intent(ProviderList.this, StartScreen.class);
 		startActivity(intent);
-		}
-		
 	}
 
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

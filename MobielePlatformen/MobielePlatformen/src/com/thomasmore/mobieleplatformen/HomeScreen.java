@@ -43,7 +43,7 @@ public class HomeScreen extends Activity implements OnClickListener {
 			break;
 
 		case R.id.bPasAan:
-			Intent i2 = new Intent(HomeScreen.this, StartScreen.class);
+			Intent i2 = new Intent(HomeScreen.this, ProviderList.class);
 			startActivity(i2);
 			break;
 
