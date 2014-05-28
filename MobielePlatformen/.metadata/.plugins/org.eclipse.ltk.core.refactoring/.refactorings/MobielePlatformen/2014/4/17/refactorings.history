@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;lv&apos; in &apos;com.thomasmore.mobieleplatformen.ProviderList.onItemLongClick(...)&apos; to &apos;listview&apos;&#x0D;&#x0A;- Original project: &apos;MobielePlatformen&apos;&#x0D;&#x0A;- Original element: &apos;com.thomasmore.mobieleplatformen.ProviderList.onItemLongClick(AdapterView&lt;?&gt;, View, int, long).lv&apos;&#x0D;&#x0A;- Renamed element: &apos;lv&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;lv&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;com.thomasmore.mobieleplatformen{ProviderList.java[ProviderList~onItemLongClick~QAdapterView\&lt;*&gt;;~QView;~I~J@lv!8656!8721!8665!8666!QListView;!0!false" name="listview" references="true" stamp="1398510449784" version="1.0"/>
+</session>

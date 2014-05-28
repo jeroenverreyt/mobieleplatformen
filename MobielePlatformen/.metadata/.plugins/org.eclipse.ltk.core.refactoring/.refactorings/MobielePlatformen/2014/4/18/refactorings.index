@@ -1,0 +1,7 @@
+1398766775923	Rename field 'etSMS'
+1398766788730	Rename field 'etFreeSmsEn'
+1398766797997	Rename field 'etFreeSmsAn'
+1398767172933	Rename field 'etCall'
+1398767182236	Rename field 'etFreeCallEn'
+1398767214469	Rename field 'bNext'
+1398773294358	Rename local variable 'freeCallType'

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;editsms&apos; in &apos;com.thomasmore.mobieleplatformen.EditCall.onCreateView(...)&apos; to &apos;editcall&apos;&#x0D;&#x0A;- Original project: &apos;MobielePlatformen&apos;&#x0D;&#x0A;- Original element: &apos;com.thomasmore.mobieleplatformen.EditCall.onCreateView(LayoutInflater, ViewGroup, Bundle).editsms&apos;&#x0D;&#x0A;- Renamed element: &apos;editsms&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;editsms&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;com.thomasmore.mobieleplatformen{EditCall.java[EditCall~onCreateView~QLayoutInflater;~QViewGroup;~QBundle;@editsms!1569!1638!1574!1580!QView;!0!false" name="editcall" references="true" stamp="1399128783706" version="1.0"/>
+</session>
