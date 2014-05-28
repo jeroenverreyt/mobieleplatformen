@@ -36,6 +36,8 @@ import android.widget.Spinner;
 
 public class ProviderList extends Activity implements OnItemClickListener,
 		OnItemSelectedListener, OnItemLongClickListener {
+	private String provfilter = "";
+	private Spinner spinner;
 	ListAdapter adapter;
 	private int success;
 	private ItemAdapter itemAdapter;
@@ -80,13 +82,23 @@ public class ProviderList extends Activity implements OnItemClickListener,
 	private String newName;
 	ListView lv;
 	private AlertDialog alertDialog;
-	private Spinner spinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
+
+		spinner = (Spinner) findViewById(R.id.spProvider);
+		// Create an ArrayAdapter using the string array and a default spinner
+		// layout
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.providers_array,
+				android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);
 
 		lv = (ListView) findViewById(android.R.id.list);
 
@@ -112,12 +124,16 @@ public class ProviderList extends Activity implements OnItemClickListener,
 				ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 				// paramater sms verwijst naar de POST variabele sms in onze
 				// webservice
-
-				String p = "";
-				p += "Base,";
-				p += "Mobistar,";
-				p += "Mobile Vikings,";
-				p += "Proximus,";
+				String p;
+				if (provfilter == "") {
+					p = "";
+					p += "Base,";
+					p += "Mobistar,";
+					p += "Mobile Vikings,";
+					p += "Proximus,";
+				} else {
+					p = provfilter + ",";
+				}
 
 				params.add(new BasicNameValuePair("provider", p));
 				// hier voer je de POST uit op de webservice
@@ -410,10 +426,12 @@ public class ProviderList extends Activity implements OnItemClickListener,
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position,
+	public void onItemSelected(AdapterView<?> parent, View view, int pos,
 			long id) {
 		// TODO Auto-generated method stub
-
+		provfilter = (String) parent.getItemAtPosition(pos);
+		itemAdapter.notifyDataSetChanged();
+		new getProviders().execute();
 	}
 
 	@Override
