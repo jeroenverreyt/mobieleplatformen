@@ -109,6 +109,9 @@ public class ProviderList extends Activity implements OnItemClickListener,
 		lv.setOnItemClickListener(this);
 		lv.setOnItemLongClickListener(this);
 		new getProviders().execute();
+		
+
+		spinner.setOnItemSelectedListener(this);
 
 	}
 

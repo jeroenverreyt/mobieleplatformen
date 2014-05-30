@@ -43,7 +43,7 @@ public class InsertSms extends Activity implements OnClickListener {
 		bNext.setOnClickListener(this);
 
 		spinner = (Spinner) findViewById(R.id.spNewFreeSmsType);
-
+		
 		rbFreeSmsAnUnl.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			public void onCheckedChanged(CompoundButton buttonView,
