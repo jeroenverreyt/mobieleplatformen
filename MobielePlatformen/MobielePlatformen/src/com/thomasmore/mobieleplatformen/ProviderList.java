@@ -17,9 +17,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -88,12 +92,14 @@ public class ProviderList extends Activity implements OnItemClickListener,
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		spinner = (Spinner) findViewById(R.id.spProvider);
 		// Create an ArrayAdapter using the string array and a default spinner
 		// layout
+
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.providers_array,
+				this, R.array.providers_array_all,
 				android.R.layout.simple_spinner_item);
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -109,10 +115,32 @@ public class ProviderList extends Activity implements OnItemClickListener,
 		lv.setOnItemClickListener(this);
 		lv.setOnItemLongClickListener(this);
 		new getProviders().execute();
-		
 
 		spinner.setOnItemSelectedListener(this);
 
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.action_add:
+			Intent i1 = new Intent(ProviderList.this, Insert.class);
+			startActivity(i1);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	class getProviders extends AsyncTask<String, String, String> {
@@ -128,7 +156,7 @@ public class ProviderList extends Activity implements OnItemClickListener,
 				// paramater sms verwijst naar de POST variabele sms in onze
 				// webservice
 				String p;
-				if (provfilter == "") {
+				if (provfilter.equalsIgnoreCase("Alle tonen")) {
 					p = "";
 					p += "Base,";
 					p += "Mobistar,";
@@ -261,31 +289,11 @@ public class ProviderList extends Activity implements OnItemClickListener,
 				break;
 
 			case 1:
-				Bundle basket = new Bundle();
-				basket.putInt("position", pos);
-				basket.putSerializable("abolist", abolist);
-				Intent i = new Intent(ProviderList.this, EditBundle.class);
-				i.putExtras(basket);
-				startActivity(i);
-
-				break;
-
-			case 2:
 				alertDialog.dismiss();
 				new delete().execute();
 
 				break;
-
-			case 3:
-				String provider = abolist.get(pos).getProvider();
-				Log.d("basket", provider);
-				Bundle b = new Bundle();
-				b.putString("provider", provider);
-				Intent intent = new Intent(ProviderList.this, Insert.class);
-				intent.putExtras(b);
-				startActivity(intent);
 			}
-
 		} else {
 			Bundle basket = new Bundle();
 			basket.putInt("position", position);
@@ -294,14 +302,34 @@ public class ProviderList extends Activity implements OnItemClickListener,
 			i.putExtras(basket);
 			startActivity(i);
 		}
+
+		/*
+		 * case 2:
+		 * 
+		 * Bundle basket = new Bundle(); basket.putInt("position", pos);
+		 * basket.putSerializable("abolist", abolist); Intent i = new
+		 * Intent(ProviderList.this, EditBundle.class); i.putExtras(basket);
+		 * startActivity(i);
+		 * 
+		 * break;
+		 * 
+		 * 
+		 * 
+		 * case 3: String provider = abolist.get(pos).getProvider();
+		 * Log.d("basket", provider); Bundle b = new Bundle();
+		 * b.putString("provider", provider); Intent intent = new
+		 * Intent(ProviderList.this, Insert.class); intent.putExtras(b);
+		 * startActivity(intent); }
+		 * 
+		 * }
+		 */
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
 		pos = arg2;
-		String names[] = { "Naam wijzigen", "Prijzen aanpassen", "Verwijderen",
-				"Nieuw tarief" };
+		String names[] = { "Naam wijzigen", "Verwijderen" };
 		alertDialog = new AlertDialog.Builder(this).create();
 		LayoutInflater inflater = getLayoutInflater();
 		View convertView = (View) inflater.inflate(R.layout.custom, null);
@@ -424,7 +452,7 @@ public class ProviderList extends Activity implements OnItemClickListener,
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-		Intent intent = new Intent(ProviderList.this, StartScreen.class);
+		Intent intent = new Intent(ProviderList.this, HomeScreen.class);
 		startActivity(intent);
 	}
 

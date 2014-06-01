@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -37,7 +38,8 @@ public class EditCall extends Fragment implements OnClickListener,
 	private int position;
 	private String call, freeCallEn, freeCallAn, freeCallType, id,
 			callInternational;
-	private CheckBox cbFreeCallAn, cbFreeCallEn;
+	private RadioButton rbFreeCallAnUnl, rbFreeCallEnUnl, rbFreeCallAn,
+			rbFreeCallEn;
 	private JSONParser jsonParser = new JSONParser();
 
 	// link naar de webservice
@@ -67,8 +69,12 @@ public class EditCall extends Fragment implements OnClickListener,
 		etCallInternational = (EditText) editcall
 				.findViewById(R.id.etCallInternational);
 
-		cbFreeCallAn = (CheckBox) editcall.findViewById(R.id.cbFreeCallAn);
-		cbFreeCallEn = (CheckBox) editcall.findViewById(R.id.cbFreeCallEn);
+		rbFreeCallAn = (RadioButton) editcall.findViewById(R.id.rbFreeCallAn);
+		rbFreeCallEn = (RadioButton) editcall.findViewById(R.id.rbFreeCallEn);
+		rbFreeCallAnUnl = (RadioButton) editcall
+				.findViewById(R.id.rbFreeCallAnUnl);
+		rbFreeCallEnUnl = (RadioButton) editcall
+				.findViewById(R.id.rbFreeCallEnUnl);
 
 		spinner = (Spinner) editcall.findViewById(R.id.spFreeCallType);
 
@@ -80,42 +86,31 @@ public class EditCall extends Fragment implements OnClickListener,
 		etFreeCallAn.setText(freeCallAn);
 		etFreeCallEn.setText(freeCallEn);
 
-		if (freeCallEn.equals("Onbeperkt")) {
-			cbFreeCallEn.setChecked(true);
-			etFreeCallEn.setText("");
-			etFreeCallEn.setEnabled(false);
+		rbFreeCallAnUnl
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							etFreeCallAn.setEnabled(false);
+						} else {
+							etFreeCallAn.setEnabled(true);
+						}
 
-		}
-		if (freeCallAn.equals("Onbeperkt")) {
-			cbFreeCallAn.setChecked(true);
-			etFreeCallAn.setText("");
-			etFreeCallAn.setEnabled(false);
+					}
+				});
 
-		}
+		rbFreeCallEnUnl
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							etFreeCallEn.setEnabled(false);
+						} else {
+							etFreeCallEn.setEnabled(true);
+						}
 
-		cbFreeCallAn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					etFreeCallAn.setEnabled(false);
-				} else {
-					etFreeCallAn.setEnabled(true);
-				}
-
-			}
-		});
-
-		cbFreeCallEn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					etFreeCallEn.setEnabled(false);
-				} else {
-					etFreeCallEn.setEnabled(true);
-				}
-
-			}
-		});
+					}
+				});
 
 		etCallInternational.setText(callInternational);
 
@@ -165,9 +160,11 @@ public class EditCall extends Fragment implements OnClickListener,
 				etCall.setError("Veld mag niet leeg zijn");
 			} else if (etCallInternational.getText().toString().isEmpty()) {
 				etCallInternational.setError("Veld mag niet leeg zijn");
-			} else if (!cbFreeCallEn.isChecked() && etFreeCallEn.getText().toString().isEmpty()) {
+			} else if (!rbFreeCallEn.isChecked()
+					&& etFreeCallEn.getText().toString().isEmpty()) {
 				etFreeCallEn.setError("Veld mag niet leeg zijn");
-			} else if (!cbFreeCallAn.isChecked() && etFreeCallAn.getText().toString().isEmpty()) {
+			} else if (!rbFreeCallAn.isChecked()
+					&& etFreeCallAn.getText().toString().isEmpty()) {
 				etFreeCallAn.setError("Veld mag niet leeg zijn");
 			} else if (!val.isStringNumeric(etCall.getText().toString())) {
 				etCall.setError("Ingevoerde waarde moet een getal zijn!");
@@ -176,10 +173,12 @@ public class EditCall extends Fragment implements OnClickListener,
 					.toString())) {
 				etCallInternational
 						.setError("Ingevoerde waarde moet een getal zijn!");
-			} else if (!cbFreeCallAn.isChecked() && !val.isStringNumeric(etFreeCallAn.getText().toString())) {
+			} else if (!rbFreeCallAn.isChecked()
+					&& !val.isStringNumeric(etFreeCallAn.getText().toString())) {
 				etFreeCallAn.setError("Ingevoerde waarde moet een getal zijn!");
 
-			} else if (!cbFreeCallEn.isChecked() && !val.isStringNumeric(etFreeCallEn.getText().toString())) {
+			} else if (!rbFreeCallEn.isChecked()
+					&& !val.isStringNumeric(etFreeCallEn.getText().toString())) {
 				etFreeCallEn.setError("Ingevoerde waarde moet een getal zijn!");
 
 			} else if (!val.isPositive(etCall.getText().toString())) {
@@ -190,9 +189,11 @@ public class EditCall extends Fragment implements OnClickListener,
 					.isPositive(etCallInternational.getText().toString())) {
 				etCallInternational.setError("Moet een positief getal zijn");
 
-			} else if (!cbFreeCallAn.isChecked() && !val.isPositive(etFreeCallAn.getText().toString())) {
+			} else if (!rbFreeCallAn.isChecked()
+					&& !val.isPositive(etFreeCallAn.getText().toString())) {
 				etFreeCallAn.setError("Moet een positief getal zijn");
-			} else if (!cbFreeCallEn.isChecked() && !val.isPositive(etFreeCallEn.getText().toString())) {
+			} else if (!rbFreeCallEn.isChecked()
+					&& !val.isPositive(etFreeCallEn.getText().toString())) {
 				etFreeCallEn.setError("Moet een positief getal zijn");
 			} else {
 				Log.d("numeric", "alles inorde");
@@ -215,14 +216,14 @@ public class EditCall extends Fragment implements OnClickListener,
 			freeCallEn = etFreeCallEn.getText().toString();
 			callInternational = etCallInternational.getText().toString();
 
-			if (cbFreeCallAn.isChecked()) {
+			if (rbFreeCallAn.isChecked()) {
 				freeCallAn = "Onbeperkt";
 				Log.d("checkbox", "checked");
 				Log.d("checkbox", freeCallAn);
 			} else {
 				freeCallAn = etFreeCallAn.getText().toString();
 			}
-			if (cbFreeCallEn.isChecked()) {
+			if (rbFreeCallEn.isChecked()) {
 				freeCallEn = "Onbeperkt";
 				Log.d("checkbox", "checked");
 				Log.d("checkbox", freeCallEn);

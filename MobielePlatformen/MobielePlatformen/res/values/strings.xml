@@ -4,19 +4,24 @@
     <string name="app_name">TP Admin</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-  	<string-array name="providers_array">
-      
-  	   
+
+    <string-array name="providers_array">
         <item>Base</item>
         <item>Proximus</item>
         <item>Mobile Vikings</item>
         <item>Mobistar</item>
-       
     </string-array>
-     <string-array name="freeSmsType_aray">
+    <string-array name="providers_array_all">
+        <item>Alle tonen</item>
+        <item>Base</item>
+        <item>Proximus</item>
+        <item>Mobile Vikings</item>
+        <item>Mobistar</item>
+    </string-array>
+    <string-array name="freeSmsType_aray">
         <item>Altijd</item>
         <item>In het weekend</item>
         <item>Avond en weekend</item>
-            
     </string-array>
+
 </resources>

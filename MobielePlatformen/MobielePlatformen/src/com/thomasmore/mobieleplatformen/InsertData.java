@@ -11,7 +11,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -27,10 +29,10 @@ public class InsertData extends Activity implements OnClickListener {
 			freeCallEn, freeCallAn, callInternational, freeCallType,
 			freeSmsType, data, freeData;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insertdata);
 
@@ -40,6 +42,17 @@ public class InsertData extends Activity implements OnClickListener {
 		bFinish = (Button) findViewById(R.id.bInsertNew);
 		bFinish.setOnClickListener(this);
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -80,13 +93,12 @@ public class InsertData extends Activity implements OnClickListener {
 
 			new insert().execute();
 			Bundle bundle = new Bundle();
-			bundle.putString("provider",provider);
-			
+			bundle.putString("provider", provider);
+
 			Intent i = new Intent(InsertData.this, ProviderList.class);
 			i.putExtras(bundle);
 			startActivity(i);
 
-		  
 		}
 	}
 

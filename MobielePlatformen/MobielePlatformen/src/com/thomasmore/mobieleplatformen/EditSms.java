@@ -7,6 +7,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -34,7 +36,8 @@ public class EditSms extends Fragment implements OnClickListener,
 	private ArrayList<Abo> abolist;
 	private int position;
 	private String sms, freeSmsEn, freeSmsAn, freeSmsType, id;
-	private CheckBox cbUnlimitedEn, cbUnlimitedAn;
+	private RadioButton rbUnlimitedEn, rbUnlimitedAn, rbUnlimitedEnUnl,
+			rbUnlimitedAnUnl;
 	private JSONParser jsonParser = new JSONParser();
 
 	// link naar de webservice
@@ -61,52 +64,47 @@ public class EditSms extends Fragment implements OnClickListener,
 		etFreeSmsEn = (EditText) editsms.findViewById(R.id.etFreeSmsEn);
 		etFreeSmsAn = (EditText) editsms.findViewById(R.id.etFreeSmsAn);
 
-		cbUnlimitedAn = (CheckBox) editsms.findViewById(R.id.cbUnlimitedAn);
-		cbUnlimitedEn = (CheckBox) editsms.findViewById(R.id.cbUnlimitedEn);
+		rbUnlimitedAn = (RadioButton) editsms.findViewById(R.id.rbUnlimitedAn);
+		rbUnlimitedEn = (RadioButton) editsms.findViewById(R.id.rbUnlimitedEn);
+		rbUnlimitedAnUnl = (RadioButton) editsms
+				.findViewById(R.id.rbUnlimitedAnUnl);
+		rbUnlimitedEnUnl = (RadioButton) editsms
+				.findViewById(R.id.rbUnlimitedEnUnl);
 
 		etSms.setText(sms);
 		etFreeSmsAn.setText(freeSmsAn);
 		etFreeSmsEn.setText(freeSmsEn);
-		if (freeSmsEn.equals("Onbeperkt")) {
-			cbUnlimitedEn.setChecked(true);
-			etFreeSmsEn.setText("");
-			etFreeSmsEn.setEnabled(false);
-
-		}
-		if (freeSmsAn.equals("Onbeperkt")) {
-			cbUnlimitedAn.setChecked(true);
-			etFreeSmsAn.setText("");
-			etFreeSmsAn.setEnabled(false);
-
-		}
 		spinner = (Spinner) editsms.findViewById(R.id.spFreeSmsType);
 
 		bChangeSMS = (Button) editsms.findViewById(R.id.bAdjustSMS);
 		bChangeSMS.setOnClickListener(this);
 
-		cbUnlimitedAn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					etFreeSmsAn.setEnabled(false);
-				} else {
-					etFreeSmsAn.setEnabled(true);
-				}
+		rbUnlimitedAnUnl
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			}
-		});
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							etFreeSmsAn.setEnabled(false);
+						} else {
+							etFreeSmsAn.setEnabled(true);
+						}
 
-		cbUnlimitedEn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					etFreeSmsEn.setEnabled(false);
-				} else {
-					etFreeSmsEn.setEnabled(true);
-				}
+					}
+				});
 
-			}
-		});
+		rbUnlimitedEnUnl
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							etFreeSmsEn.setEnabled(false);
+						} else {
+							etFreeSmsEn.setEnabled(true);
+						}
+
+					}
+				});
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				getActivity().getBaseContext(), R.array.freeSmsType_aray,
@@ -154,31 +152,32 @@ public class EditSms extends Fragment implements OnClickListener,
 			if (etSms.getText().toString().isEmpty()) {
 				etSms.setError("Veld mag niet leeg zijn");
 			} else if (etFreeSmsAn.getText().toString().isEmpty()
-					&& !cbUnlimitedAn.isChecked()) {
+					&& !rbUnlimitedAn.isChecked()) {
 				etFreeSmsAn.setError("Veld mag niet leeg zijn");
 			} else if (etFreeSmsEn.getText().toString().isEmpty()
-					&& !cbUnlimitedEn.isChecked()) {
+					&& !rbUnlimitedEn.isChecked()) {
 				etFreeSmsEn.setError("Veld mag niet leeg zijn");
-				
+
 			} else if (!val.isStringNumeric(etSms.getText().toString())) {
 				etSms.setError("Ingevoerde waarde moet een getal zijn!");
-				
-			} else if (!cbUnlimitedEn.isChecked() && !val.isStringNumeric(etFreeSmsEn.getText().toString())) {
-				
+
+			} else if (!rbUnlimitedEn.isChecked()
+					&& !val.isStringNumeric(etFreeSmsEn.getText().toString())) {
+
 				etFreeSmsEn.setError("Ingevoerde waarde moet een getal zijn!");
-			} else if (!cbUnlimitedAn.isChecked() && !val.isStringNumeric(etFreeSmsAn.getText().toString()))
-					 {
+			} else if (!rbUnlimitedAn.isChecked()
+					&& !val.isStringNumeric(etFreeSmsAn.getText().toString())) {
 				etFreeSmsAn.setError("Ingevoerde waarde moet een getal zijn!");
 			} else if (!val.isPositive(etSms.getText().toString())) {
 
 				etSms.setError("Moet een positief getal zijn");
 
-			} else if (!cbUnlimitedEn.isChecked() && !val.isPositive(etFreeSmsEn.getText().toString())
-					){
+			} else if (!rbUnlimitedEn.isChecked()
+					&& !val.isPositive(etFreeSmsEn.getText().toString())) {
 				etFreeSmsEn.setError("Moet een positief getal zijn");
 
-			} else if ((!cbUnlimitedAn.isChecked() &&!val.isPositive(etFreeSmsAn.getText().toString())))
-					 {
+			} else if ((!rbUnlimitedAn.isChecked() && !val
+					.isPositive(etFreeSmsAn.getText().toString()))) {
 				etFreeSmsAn.setError("Moet een positief getal zijn");
 			} else {
 				Log.d("validation", "alles inorde");
@@ -197,14 +196,14 @@ public class EditSms extends Fragment implements OnClickListener,
 			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 
 			sms = etSms.getText().toString();
-			if (cbUnlimitedAn.isChecked()) {
+			if (rbUnlimitedAn.isChecked()) {
 				freeSmsAn = "Onbeperkt";
 				Log.d("checkbox", "checked");
 				Log.d("checkbox", freeSmsAn);
 			} else {
 				freeSmsAn = etFreeSmsAn.getText().toString();
 			}
-			if (cbUnlimitedEn.isChecked()) {
+			if (rbUnlimitedEn.isChecked()) {
 				freeSmsEn = "Onbeperkt";
 				Log.d("checkbox", "checked");
 				Log.d("checkbox", freeSmsEn);

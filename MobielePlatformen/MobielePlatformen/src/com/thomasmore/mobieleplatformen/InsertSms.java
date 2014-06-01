@@ -3,7 +3,9 @@ package com.thomasmore.mobieleplatformen;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -25,6 +27,7 @@ public class InsertSms extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insertsms);
 
@@ -43,31 +46,33 @@ public class InsertSms extends Activity implements OnClickListener {
 		bNext.setOnClickListener(this);
 
 		spinner = (Spinner) findViewById(R.id.spNewFreeSmsType);
-		
-		rbFreeSmsAnUnl.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					etFreeSmsAn.setEnabled(false);
-				} else {
-					etFreeSmsAn.setEnabled(true);
-				}
+		rbFreeSmsAnUnl
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			}
-		});
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							etFreeSmsAn.setEnabled(false);
+						} else {
+							etFreeSmsAn.setEnabled(true);
+						}
 
-		rbFreeSmsEnUnl.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					etFreeSmsEn.setEnabled(false);
-				} else {
-					etFreeSmsEn.setEnabled(true);
-				}
+					}
+				});
 
-			}
-		});
+		rbFreeSmsEnUnl
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							etFreeSmsEn.setEnabled(false);
+						} else {
+							etFreeSmsEn.setEnabled(true);
+						}
+
+					}
+				});
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.freeSmsType_aray,
@@ -77,6 +82,17 @@ public class InsertSms extends Activity implements OnClickListener {
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -119,9 +135,11 @@ public class InsertSms extends Activity implements OnClickListener {
 			etFreeSmsAn.setError("Gelieve een prijs in te geven");
 		} else if (!val.isStringNumeric(sms)) {
 			etSMS.setError("Voer een correct getal in");
-		} else if (!rbFreeSmsAnUnl.isChecked() && !val.isStringNumeric(freeSmsAn)) {
+		} else if (!rbFreeSmsAnUnl.isChecked()
+				&& !val.isStringNumeric(freeSmsAn)) {
 			etFreeSmsAn.setError("Voer een correct getal in");
-		} else if (!rbFreeSmsEnUnl.isChecked() && !val.isStringNumeric(freeSmsEn)) {
+		} else if (!rbFreeSmsEnUnl.isChecked()
+				&& !val.isStringNumeric(freeSmsEn)) {
 			etFreeSmsEn.setError("Voer een correct getal in");
 		} else if (!val.isPositive(sms)) {
 			etSMS.setError("Getal moet positief zijn");

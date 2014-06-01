@@ -3,7 +3,9 @@ package com.thomasmore.mobieleplatformen;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -20,11 +22,13 @@ public class InsertCall extends Activity implements OnClickListener {
 	private EditText etCall, etFreeCallEn, etFreeCallAn, etCallInternational;
 	private Button bNext;
 	private Spinner spinner;
-	private RadioButton rbFreeCallEn,rbFreeCallEnUnl, rbFreeCallAn, rbFreeCallAnUnl;
+	private RadioButton rbFreeCallEn, rbFreeCallEnUnl, rbFreeCallAn,
+			rbFreeCallAnUnl;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.insertcall);
 
@@ -40,33 +44,33 @@ public class InsertCall extends Activity implements OnClickListener {
 
 		rbFreeCallAn = (RadioButton) findViewById(R.id.rbNewFreeCallAn);
 		rbFreeCallAnUnl = (RadioButton) findViewById(R.id.rbNewFreeCallAnUnl);
-		
-		
 
-		rbFreeCallAnUnl.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					etFreeCallAn.setEnabled(false);
-				} else {
-					etFreeCallAn.setEnabled(true);
-				}
+		rbFreeCallAnUnl
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							etFreeCallAn.setEnabled(false);
+						} else {
+							etFreeCallAn.setEnabled(true);
+						}
 
-			}
-		});
+					}
+				});
 
-		rbFreeCallEnUnl.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					etFreeCallEn.setEnabled(false);
-				} else {
-					etFreeCallEn.setEnabled(true);
-				}
+		rbFreeCallEnUnl
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							etFreeCallEn.setEnabled(false);
+						} else {
+							etFreeCallEn.setEnabled(true);
+						}
 
-			}
-		});
-		
+					}
+				});
+
 		spinner = (Spinner) findViewById(R.id.spNewFreeCallType);
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -76,6 +80,17 @@ public class InsertCall extends Activity implements OnClickListener {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -95,19 +110,19 @@ public class InsertCall extends Activity implements OnClickListener {
 		String freeCallAn = etFreeCallAn.getText().toString();
 		String callInternational = etCallInternational.getText().toString();
 		String freeCallType = "";
-		
+
 		if (rbFreeCallAnUnl.isChecked()) {
 			freeCallAn = "Onbeperkt";
 			Log.d("checkbox", "checked");
 			Log.d("checkbox", freeSmsAn);
-		} 
-		
+		}
+
 		if (rbFreeCallEnUnl.isChecked()) {
 			freeCallEn = "Onbeperkt";
 			Log.d("checkbox", "checked");
 			Log.d("checkbox", freeSmsEn);
 		}
-		
+
 		if (spinner.getSelectedItemId() == 0) {
 			freeCallType = "N";
 		} else if (spinner.getSelectedItemId() == 1) {
@@ -130,9 +145,11 @@ public class InsertCall extends Activity implements OnClickListener {
 			etCall.setError("Voer een correct getal in");
 		} else if (!val.isStringNumeric(callInternational)) {
 			etCallInternational.setError("Voer een correct getal in");
-		} else if (!rbFreeCallAnUnl.isChecked() && !val.isStringNumeric(freeCallAn)) {
+		} else if (!rbFreeCallAnUnl.isChecked()
+				&& !val.isStringNumeric(freeCallAn)) {
 			etFreeCallAn.setError("Voer een correct getal in");
-		} else if (!rbFreeCallEnUnl.isChecked() && !val.isStringNumeric(freeCallEn)) {
+		} else if (!rbFreeCallEnUnl.isChecked()
+				&& !val.isStringNumeric(freeCallEn)) {
 			etFreeCallEn.setError("Voer een correct getal in");
 		} else if (!val.isPositive(call)) {
 			etCall.setError("Getal moet positief zijn");

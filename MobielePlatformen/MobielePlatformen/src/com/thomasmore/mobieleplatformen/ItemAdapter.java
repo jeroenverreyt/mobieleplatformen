@@ -43,12 +43,16 @@ public class ItemAdapter extends ArrayAdapter<Abo> {
 			// This is how you obtain a reference to the TextViews.
 			// These TextViews are created in the XML files we defined.
 
+			TextView t = (TextView) v.findViewById(R.id.tvProvider);
 			TextView tt = (TextView) v.findViewById(R.id.tvBundel);
 			TextView ttd = (TextView) v.findViewById(R.id.tvPrice);
 			
 
 			// check to see if each individual textview is null.
 			// if not, assign some text!
+			if (t != null){
+				t.setText(i.getProvider());
+			}
 			if (tt != null){
 				tt.setText(i.getName());
 			}
